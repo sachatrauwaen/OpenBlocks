@@ -1,0 +1,303 @@
+<dotnetnuke type="Package" version="5.0">  
+  <packages>
+    <package name="OpenBlocks" type="Module" version="00.00.01">
+      <friendlyName>OpenBlocks</friendlyName>
+      <description>OpenBlocks module</description>
+      <iconFile>DesktopModules\OpenBlocks\Images\block.png</iconFile>
+      <owner>
+        <name>Sacha Trauwaen</name>
+        <organization>Satrabel</organization>
+        <url>http://www.satrabel.be</url>
+        <email>info@satrabel.be</email>
+      </owner>
+      <license src="License.txt"></license>
+      <releaseNotes src="ReleaseNotes.txt"></releaseNotes>
+      <dependencies>
+        <dependency type="CoreVersion">07.00.02</dependency>
+      </dependencies>      
+      <components>
+        <component type="Script">
+          <scripts>
+            <basePath>DesktopModules\OpenBlocks</basePath>
+            <script type="Install">
+              <path>Providers\DataProviders\SqlDataProvider</path>
+              <name>00.00.01.SqlDataProvider</name>
+              <version>00.00.01</version>
+            </script>
+            <script type="UnInstall">
+              <path>Providers\DataProviders\SqlDataProvider</path>
+              <name>Uninstall.SqlDataProvider</name>
+              <version>00.00.01</version>
+            </script>
+          </scripts>
+        </component>
+
+        <component type="ResourceFile">
+          <resourceFiles>
+            <basePath>DesktopModules/OpenBlocks</basePath>
+            <resourceFile>
+              <name>Resources.zip</name>
+            </resourceFile>
+          </resourceFiles>
+        </component>
+
+        <component type="Module">
+          <desktopModule>
+            <moduleName>OpenBlocks</moduleName>
+            <foldername>OpenBlocks</foldername>
+            <businessControllerClass>Satrabel.Modules.OpenBlocks.Components.FeatureController</businessControllerClass>
+            <supportedFeatures />
+            <moduleDefinitions>
+              <moduleDefinition>
+                <friendlyName>OpenBlocks</friendlyName>
+                <defaultCacheTime>0</defaultCacheTime>
+                <moduleControls>
+                  <moduleControl>
+                    <controlKey />
+                    <controlSrc>DesktopModules/OpenBlocks/Block_View.ascx</controlSrc>
+                    <supportsPartialRendering>False</supportsPartialRendering>
+                    <controlTitle />
+                    <controlType>View</controlType>
+                    <iconFile />
+                    <helpUrl />
+                    <viewOrder>0</viewOrder>
+                  </moduleControl>
+                  <moduleControl>
+                    <controlKey>Edit</controlKey>
+                    <controlSrc>DesktopModules/OpenBlocks/Block_Edit.ascx</controlSrc>
+                    <supportsPartialRendering>False</supportsPartialRendering>
+                    <controlTitle>Edit block</controlTitle>
+                    <controlType>Edit</controlType>
+                    <iconFile />
+                    <helpUrl />
+                    <viewOrder>0</viewOrder>
+                    <supportsPopUps>True</supportsPopUps>
+                  </moduleControl>
+                  <moduleControl>
+                    <controlKey>Settings</controlKey>
+                    <controlSrc>DesktopModules/OpenBlocks/Block_Settings.ascx</controlSrc>
+                    <supportsPartialRendering>False</supportsPartialRendering>
+                    <controlTitle>Blocks Settings</controlTitle>
+                    <controlType>Edit</controlType>
+                    <iconFile />
+                    <helpUrl />
+                    <viewOrder>0</viewOrder>
+                  </moduleControl>
+                </moduleControls>
+              </moduleDefinition>
+            </moduleDefinitions>
+          </desktopModule>
+        </component>
+        <component type="Assembly">
+          <assemblies>
+            <assembly>
+              <name>OpenBlocks.dll</name>
+              <path>bin</path>
+            </assembly>
+          </assemblies>
+        </component>
+
+        <component type="Config">
+          <config>
+            <configFile>web.config</configFile>
+            <install>
+              <configuration>
+                <nodes>
+                  <node path="/configuration/system.webServer/modules" action="update" key="name" collision="overwrite">
+                    <add name="TokenReplace" type="Satrabel.Token.TokenReplaceModule, OpenBlocks" preCondition="managedHandler" />
+                  </node>
+                  
+                  <node path="/configuration/configSections/sectionGroup[@name='dotnetnuke']" action="update" key="name" collision="overwrite">
+                    <section name="tokenEngine" requirePermission="false" type="DotNetNuke.Framework.Providers.ProviderConfigurationHandler, DotNetNuke" />
+                    <section name="dataEngine" requirePermission="false" type="DotNetNuke.Framework.Providers.ProviderConfigurationHandler, DotNetNuke" />
+                    <section name="templateEngine" requirePermission="false" type="DotNetNuke.Framework.Providers.ProviderConfigurationHandler, DotNetNuke" />                    
+                  </node>
+                 
+                  <node path="/configuration/dotnetnuke" action="update" targetpath="/configuration/dotnetnuke/tokenEngine" collision="ignore">
+                    <tokenEngine defaultProvider="blockTokenProvider">
+                      <providers>
+                        <clear/>
+                        <add name="blockTokenProvider" type="Satrabel.Token.BlockTokenProvider" FriendlyName="block" Configurator="~\DesktopModules\OpenBlocks\Providers\TokenProvider\Block\BlockConfigurator.ascx" />
+                        <add name="widgetTokenProvider" type="Satrabel.Token.WidgetTokenProvider" FriendlyName="widget" Configurator="~\DesktopModules\OpenBlocks\Providers\TokenProvider\Widget\WidgetConfigurator.ascx" />
+                        <add name="htmlmoduleTokenProvider" type="Satrabel.Token.HtmlModuleTokenProvider" FriendlyName="htmlmodule" Configurator="~\DesktopModules\OpenBlocks\Providers\TokenProvider\HtmlModule\HtmlModuleConfigurator.ascx" />
+                      </providers>
+                    </tokenEngine>
+                  </node>
+
+                  <node path="/configuration/dotnetnuke" action="update" targetpath="/configuration/dotnetnuke/dataEngine" collision="ignore">
+                    <dataEngine defaultProvider="blockTokenProvider">
+                      <providers>
+                        <clear />
+                        <add name="rssDataSourceProvider" type="Satrabel.DataSource.RssDataSourceProvider" FriendlyName="RSS" Configurator="~\DesktopModules\OpenBlocks\Providers\DataSourceProvider\RssDataSourceProvider\RssConfigurator.ascx" />
+                      </providers>
+                    </dataEngine>
+                  </node>
+
+                  <node path="/configuration/dotnetnuke" action="update" targetpath="/configuration/dotnetnuke/templateEngine" collision="ignore">
+                    <templateEngine defaultProvider="razorTemplateProvider">
+                      <providers>
+                        <clear />
+                        <add name="razorTemplateProvider" type="Satrabel.Providers.TemplateEngine.RazorTemplateProvider" />
+                        <add name="liquidTemplateProvider" type="Satrabel.Providers.TemplateEngine.LiquidTemplateProvider" />
+                        <add name="htmlTemplateProvider" type="Satrabel.Providers.TemplateEngine.HtmlTemplateProvider" />
+                      </providers>
+                    </templateEngine>
+                  </node>
+                </nodes>
+              </configuration>
+            </install>
+            <uninstall>
+              <configuration>
+                <nodes>
+                  <node path="/configuration/system.webServer/modules/add[@name='TokenReplace']" action="remove" />
+
+                  <node path="/configuration/configSections/sectionGroup[@name='dotnetnuke']/section[@name='tokenEngine']" action="remove"  />
+                  <node path="/configuration/configSections/sectionGroup[@name='dotnetnuke']/section[@name='dataEngine']" action="remove"  />
+                  <node path="/configuration/configSections/sectionGroup[@name='dotnetnuke']/section[@name='templateEngine']" action="remove"  />
+
+                  <node path="/configuration/dotnetnuke/tokenEngine" action="remove" />
+                  <node path="/configuration/dotnetnuke/dataEngine" action="remove" />
+                  <node path="/configuration/dotnetnuke/templateEngine" action="remove" />
+
+                </nodes>
+              </configuration>
+            </uninstall>
+          </config>
+        </component>
+
+      </components>
+    </package>
+
+    <package name="OpenTemplateStudio" type="Module" version="00.00.01">
+      <friendlyName>OpenTemplateStudio</friendlyName>
+      <description>Template Studio module</description>
+      <iconFile>DesktopModules\OpenBlocks\Images\block.png</iconFile>
+      <owner>
+        <name>Sacha Trauwaen</name>
+        <organization>Satrabel</organization>
+        <url>http://www.satrabel.be</url>
+        <email>info@satrabel.be</email>
+      </owner>
+      <license src="License.txt"></license>
+      <releaseNotes src="ReleaseNotes.txt"></releaseNotes>
+      <dependencies>
+        <dependency type="CoreVersion">07.00.02</dependency>
+      </dependencies>
+      <components>
+
+        <component type="Module">
+          <desktopModule>
+            <moduleName>OpenTemplateStudio</moduleName>
+            <foldername>OpenBlocks</foldername>
+            <businessControllerClass>Satrabel.Modules.OpenBlocks.Components.FeatureController</businessControllerClass>
+            <supportedFeatures />
+            <moduleDefinitions>
+              <moduleDefinition>
+                <friendlyName>OpenTemplateStudio</friendlyName>
+                <defaultCacheTime>0</defaultCacheTime>
+                <moduleControls>
+                  <moduleControl>
+                    <controlKey />
+                    <controlSrc>DesktopModules/OpenBlocks/Template_View.ascx</controlSrc>
+                    <supportsPartialRendering>False</supportsPartialRendering>
+                    <controlTitle />
+                    <controlType>View</controlType>
+                    <iconFile />
+                    <helpUrl />
+                    <viewOrder>0</viewOrder>
+                  </moduleControl>
+                  <moduleControl>
+                    <controlKey>Edit</controlKey>
+                    <controlSrc>DesktopModules/OpenBlocks/Template_Edit.ascx</controlSrc>
+                    <supportsPartialRendering>False</supportsPartialRendering>
+                    <controlTitle>Edit Template</controlTitle>
+                    <controlType>Edit</controlType>
+                    <iconFile />
+                    <helpUrl />
+                    <viewOrder>0</viewOrder>
+                    <supportsPopUps>True</supportsPopUps>
+                  </moduleControl>
+                  <moduleControl>
+                    <controlKey>Preview</controlKey>
+                    <controlSrc>DesktopModules/OpenBlocks/Template_Preview.ascx</controlSrc>
+                    <supportsPartialRendering>False</supportsPartialRendering>
+                    <controlTitle>Template Settings</controlTitle>
+                    <controlType>Edit</controlType>
+                    <iconFile />
+                    <helpUrl />
+                    <viewOrder>0</viewOrder>
+                    <supportsPopUps>True</supportsPopUps>
+                  </moduleControl>
+                </moduleControls>
+              </moduleDefinition>
+            </moduleDefinitions>
+          </desktopModule>
+        </component>
+       
+      </components>
+    </package>
+
+    <package name="OpenToken" type="Module" version="00.00.01">
+      <friendlyName>OpenToken</friendlyName>
+      <description>Token module</description>
+      <iconFile>DesktopModules\OpenBlocks\Images\block.png</iconFile>
+      <owner>
+        <name>Sacha Trauwaen</name>
+        <organization>Satrabel</organization>
+        <url>http://www.satrabel.be</url>
+        <email>info@satrabel.be</email>
+      </owner>
+      <license src="License.txt"></license>
+      <releaseNotes src="ReleaseNotes.txt"></releaseNotes>
+      <dependencies>
+        <dependency type="CoreVersion">07.00.02</dependency>
+      </dependencies>
+      <components>
+
+        <component type="Module">
+          <desktopModule>
+            <moduleName>OpenToken</moduleName>
+            <foldername>OpenBlocks</foldername>
+            <businessControllerClass>Satrabel.Modules.OpenBlocks.Components.FeatureController</businessControllerClass>
+            <supportedFeatures />
+            <moduleDefinitions>
+              <moduleDefinition>
+                <friendlyName>OpenToken</friendlyName>
+                <defaultCacheTime>0</defaultCacheTime>
+                <moduleControls>
+                  <moduleControl>
+                    <controlKey />
+                    <controlSrc>DesktopModules/OpenBlocks/Token_View.ascx</controlSrc>
+                    <supportsPartialRendering>False</supportsPartialRendering>
+                    <controlTitle />
+                    <controlType>View</controlType>
+                    <iconFile />
+                    <helpUrl />
+                    <viewOrder>0</viewOrder>
+                  </moduleControl>
+                  <moduleControl>
+                    <controlKey>Settings</controlKey>
+                    <controlSrc>DesktopModules/OpenBlocks/Token_Settings.ascx</controlSrc>
+                    <supportsPartialRendering>False</supportsPartialRendering>
+                    <controlTitle>Token settings</controlTitle>
+                    <controlType>Edit</controlType>
+                    <iconFile />
+                    <helpUrl />
+                    <viewOrder>0</viewOrder>
+                    <supportsPopUps>True</supportsPopUps>
+                  </moduleControl>
+                
+                </moduleControls>
+              </moduleDefinition>
+            </moduleDefinitions>
+          </desktopModule>
+        </component>
+
+      </components>
+    </package>
+    
+    
+    
+    
+  </packages>
+</dotnetnuke>
