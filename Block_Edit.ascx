@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="Block_Edit.ascx.cs" Inherits="Satrabel.Modules.OpenBlocks.Block_Edit" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="Block_Edit.ascx.cs" Inherits="Satrabel.OpenBlocks.Block_Edit" %>
 <%@ Register TagPrefix="dnn" Assembly="DotNetNuke" Namespace="DotNetNuke.UI.WebControls" %>
 <%@ Register TagPrefix="dnn" TagName="label" Src="~/controls/LabelControl.ascx" %>
 <%@ Register TagPrefix="dnn" TagName="texteditor" Src="~/controls/texteditor.ascx" %>

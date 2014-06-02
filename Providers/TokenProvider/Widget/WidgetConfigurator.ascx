@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" Inherits="Satrabel.Token.WidgetConfigurator" Codebehind="WidgetConfigurator.ascx.cs" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" Inherits="Satrabel.OpenBlocks.Token.WidgetConfigurator" Codebehind="WidgetConfigurator.ascx.cs" %>
 
 <div class="dnnFormItem">
     <asp:label id="lTemplate" runat="server" text="Template" helptext="Enter a value" controlname="txtField" CssClass="dnnLabel" />

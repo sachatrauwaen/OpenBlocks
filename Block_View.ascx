@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="Block_View.ascx.cs" Inherits="Satrabel.Modules.OpenBlocks.Block_View" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="Block_View.ascx.cs" Inherits="Satrabel.OpenBlocks.Block_View" %>
 
 <div class="dnnForm" id="form-blocks">
     <asp:GridView ID="gvBlocks" runat="server" CssClass="dnnGrid" AutoGenerateColumns="False" OnRowCommand="gvBlocks_RowCommand" OnRowDataBound="gvBlocks_RowDataBound" HeaderStyle-CssClass="dnnGridHeader" RowStyle-CssClass="dnnGridItem" Width="100%">

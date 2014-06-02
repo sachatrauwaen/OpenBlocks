@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SatraBel.TemplateEditor {
+namespace SatraBel.OpenBlocks {
     
     
     public partial class Template_DataSource {

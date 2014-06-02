@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" Inherits="SatraBel.Widget.TokenSettings" Codebehind="TokenSettings.ascx.cs" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" Inherits="SatraBel.OpenBlocks.TokenSettings" Codebehind="TokenSettings.ascx.cs" %>
 <div class="dnnForm dnnSettings dnnClear" id="dnnSettings">
     <fieldset>
         <div class="dnnFormItem">

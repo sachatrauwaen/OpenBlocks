@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Satrabel.DataSource {
+namespace Satrabel.OpenBlocks.DataSource {
     
     
     public partial class RssConfigurator {

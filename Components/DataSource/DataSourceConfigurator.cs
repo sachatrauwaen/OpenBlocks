@@ -7,7 +7,7 @@ using System.Collections;
 using DotNetNuke.Services.Localization;
 using System.Text.RegularExpressions;
 
-namespace Satrabel.DataSource
+namespace Satrabel.OpenBlocks.DataSource
 {
 
     public abstract class DataSourceConfigurator : UserControl

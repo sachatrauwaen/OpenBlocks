@@ -3,15 +3,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using Satrabel.DataSource;
+using Satrabel.OpenBlocks.DataSource;
 using DotNetNuke.Modules.Html;
 using DotNetNuke.Common.Utilities;
 
-using Satrabel.Providers.TemplateEngine;
+using Satrabel.OpenBlocks.TemplateEngine;
 using System.Collections;
 using System.Reflection;
 
-namespace Satrabel.Token
+namespace Satrabel.OpenBlocks.Token
 {
 
     public class DumpTokenProvider : TokenProvider

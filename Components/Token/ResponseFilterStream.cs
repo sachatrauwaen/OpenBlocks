@@ -12,7 +12,7 @@ using System;
 using System.Web;
 using System.Text;
 
-namespace Satrabel.Token
+namespace Satrabel.OpenBlocks.Token
 {
 
     public class ResponseFilterStream : Stream

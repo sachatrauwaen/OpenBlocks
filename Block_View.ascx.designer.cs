@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Satrabel.Modules.OpenBlocks {
+namespace Satrabel.OpenBlocks {
     
     
     public partial class Block_View {

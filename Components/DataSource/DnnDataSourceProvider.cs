@@ -9,7 +9,7 @@ using System.Web.Hosting;
 using System.Drawing;
 
 
-namespace Satrabel.DataSource
+namespace Satrabel.OpenBlocks.DataSource
 {
     public class DnnDataSourceProvider : DataSourceProvider
     {

@@ -14,15 +14,15 @@ using DotNetNuke.Entities.Modules;
 using System.Web.Hosting;
 using System.Collections.Generic;
 using System.IO;
-using Satrabel.Token;
+using Satrabel.OpenBlocks.Token;
 using DotNetNuke.UI.Skins.Controls;
-using Satrabel.DataSource;
+using Satrabel.OpenBlocks.DataSource;
 using System.Collections;
 using System.Web.UI.WebControls;
 
 #endregion
 
-namespace SatraBel.TemplateEditor
+namespace SatraBel.OpenBlocks
 {
 
     public partial class Template_DataSource : PortalModuleBase

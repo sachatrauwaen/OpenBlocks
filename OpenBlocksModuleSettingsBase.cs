@@ -12,7 +12,7 @@
 
 using DotNetNuke.Entities.Modules;
 
-namespace Satrabel.Modules.OpenBlocks
+namespace Satrabel.OpenBlocks
 {
     public class OpenBlocksModuleSettingsBase : ModuleSettingsBase
     {

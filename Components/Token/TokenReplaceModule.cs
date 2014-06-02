@@ -14,7 +14,7 @@ using DotNetNuke.UI.WebControls;
 using System.Web.UI.WebControls;
 using DotNetNuke.Entities.Portals;
 
-namespace Satrabel.Token
+namespace Satrabel.OpenBlocks.Token
 {
     public class TokenReplaceModule : IHttpModule
     {

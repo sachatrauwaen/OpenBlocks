@@ -27,13 +27,13 @@ using System.Net;
 using System.Threading;
 using System.Web;
 using System.Collections.Generic;
-using Satrabel.Token;
-using Satrabel.DataSource;
+using Satrabel.OpenBlocks.Token;
+using Satrabel.OpenBlocks.DataSource;
 using DotNetNuke.Framework;
 
 #endregion
 
-namespace SatraBel.TemplateEditor
+namespace SatraBel.OpenBlocks
 {
     public partial class Template_View : PortalModuleBase, IActionable //, IClientAPICallbackEventHandler
     {

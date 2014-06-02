@@ -1,4 +1,4 @@
-<%@ Control Language="C#" AutoEventWireup="false" Inherits="SatraBel.TemplateEditor.Template_DataSource" CodeBehind="Template_DataSource.ascx.cs" %>
+<%@ Control Language="C#" AutoEventWireup="false" Inherits="SatraBel.OpenBlocks.Template_DataSource" CodeBehind="Template_DataSource.ascx.cs" %>
 
 <%@ Register TagPrefix="dnn" TagName="Label" Src="~/controls/LabelControl.ascx" %>
 <div class="dnnForm" id="templateEditorDataSource">

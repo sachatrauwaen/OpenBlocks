@@ -12,7 +12,7 @@
 using System;
 using DotNetNuke.Entities.Modules;
 using DotNetNuke.Services.Exceptions;
-using Satrabel.Token;
+using Satrabel.OpenBlocks.Token;
 using System.Web.UI.WebControls;
 using System.IO;
 using System.Collections;
@@ -20,7 +20,7 @@ using System.Linq;
 
 #endregion
 
-namespace Satrabel.Token
+namespace Satrabel.OpenBlocks
 {
 
     public partial class Token_Settings : ModuleSettingsBase

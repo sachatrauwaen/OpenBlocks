@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" Inherits="SatraBel.TemplateEditor.Template_View" CodeBehind="Template_View.ascx.cs" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" Inherits="SatraBel.OpenBlocks.Template_View" CodeBehind="Template_View.ascx.cs" %>
 <%@ Register TagPrefix="dnn" TagName="Label" Src="~/controls/LabelControl.ascx" %>
 <%@ Register TagPrefix="dnn" Namespace="DotNetNuke.Web.UI.WebControls" Assembly="DotNetNuke.Web" %>
 <%@ Register TagPrefix="dnn" Namespace="DotNetNuke.Web.Client.ClientResourceManagement" Assembly="DotNetNuke.Web.Client" %>

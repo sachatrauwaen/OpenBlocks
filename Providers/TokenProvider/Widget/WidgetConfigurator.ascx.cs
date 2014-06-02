@@ -7,10 +7,10 @@ using System.Web.UI.WebControls;
 using System.IO;
 using DotNetNuke.Services.Exceptions;
 using System.Collections;
-using Satrabel.DataSource;
+using Satrabel.OpenBlocks.DataSource;
 
 
-namespace Satrabel.Token
+namespace Satrabel.OpenBlocks.Token
 {
 
     public partial class WidgetConfigurator : TokenConfigurator

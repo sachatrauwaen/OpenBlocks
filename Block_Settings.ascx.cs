@@ -14,7 +14,7 @@ using System;
 using DotNetNuke.Entities.Modules;
 using DotNetNuke.Services.Exceptions;
 
-namespace Satrabel.Modules.OpenBlocks
+namespace Satrabel.OpenBlocks
 {
     /// -----------------------------------------------------------------------------
     /// <summary>

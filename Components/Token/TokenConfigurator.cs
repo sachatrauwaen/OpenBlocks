@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Collections;
 
-namespace Satrabel.Token
+namespace Satrabel.OpenBlocks.Token
 {
 
     public abstract class TokenConfigurator : UserControl

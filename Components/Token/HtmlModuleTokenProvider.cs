@@ -5,7 +5,7 @@ using System.Web;
 using DotNetNuke.Modules.Html;
 using DotNetNuke.Common.Utilities;
 
-namespace Satrabel.Token
+namespace Satrabel.OpenBlocks.Token
 {
     public class HtmlModuleTokenProvider : TokenProvider
     {

@@ -15,7 +15,7 @@ using System.Collections.Generic;
 using DotNetNuke.Entities.Modules;
 using DotNetNuke.Services.Search;
 
-namespace Satrabel.Modules.OpenBlocks.Components
+namespace Satrabel.OpenBlocks.Block
 {
 
     /// -----------------------------------------------------------------------------

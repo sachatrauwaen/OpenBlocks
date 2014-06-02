@@ -47,6 +47,7 @@
       <SourceInclude Include="**\*.csproj" />
       <SourceInclude Include="**\*.targets" />
       <SourceInclude Include="**\*.sln" />
+      <SourceInclude Include="**\*.dnn" />
     </ItemGroup>
     
     <CreateItem Include="$(DNNFileName).dnn">

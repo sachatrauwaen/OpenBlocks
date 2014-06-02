@@ -13,7 +13,7 @@ using DotNetNuke.Web.Api;
 
 #endregion
 
-namespace Satrabel.TemplateEditor
+namespace Satrabel.OpenBlocks.TemplateEditor
 {
     public class TemplateEditorRouteMapper : IServiceRouteMapper
     {

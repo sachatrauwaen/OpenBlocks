@@ -16,7 +16,7 @@ using DotNetNuke.Common.Utilities;
 using DotNetNuke.ComponentModel.DataAnnotations;
 using DotNetNuke.Entities.Content;
 
-namespace Satrabel.Modules.OpenBlocks.Components
+namespace Satrabel.OpenBlocks.Block
 {
     [TableName("OpenBlocks_Blocks")]
     //setup the primary key for table

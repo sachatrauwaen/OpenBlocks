@@ -13,11 +13,11 @@ using System;
 
 using DotNetNuke.Entities.Modules;
 using System.Web;
-using Satrabel.Token;
+using Satrabel.OpenBlocks.Token;
 
 #endregion
 
-namespace Satrabel.Token
+namespace Satrabel.OpenBlocks
 {
 
     public partial class Token_View : PortalModuleBase

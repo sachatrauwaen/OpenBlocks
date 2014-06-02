@@ -12,13 +12,13 @@
 
 using System;
 using DotNetNuke.Entities.Users;
-using Satrabel.Modules.OpenBlocks.Components;
+using Satrabel.OpenBlocks.Block;
 using DotNetNuke.Services.Exceptions;
 using DotNetNuke.UI.UserControls;
 using DotNetNuke.Services.Localization;
 using System.Web.UI.WebControls;
 
-namespace Satrabel.Modules.OpenBlocks
+namespace Satrabel.OpenBlocks
 {
     public partial class Block_Edit : OpenBlocksModuleBase
     {
@@ -72,7 +72,7 @@ namespace Satrabel.Modules.OpenBlocks
 
         protected void btnSubmit_Click(object sender, EventArgs e)
         {
-            var t = new Block();
+            var t = new Satrabel.OpenBlocks.Block.Block();
             var tc = new BlockController();
             if (ItemId > 0)
             {
@@ -83,7 +83,7 @@ namespace Satrabel.Modules.OpenBlocks
             }
             else
             {
-                t = new Block()
+                t = new Satrabel.OpenBlocks.Block.Block()
                 {
                     //AssignedUserId = Convert.ToInt32(ddlAssignedUser.SelectedValue),
                     CreatedByUserId = UserId,

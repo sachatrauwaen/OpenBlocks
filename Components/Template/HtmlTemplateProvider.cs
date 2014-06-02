@@ -9,11 +9,11 @@ using DotNetNuke.Entities.Portals;
 using DotNetNuke.UI.Modules;
 using System.Web.Hosting;
 using System.Text.RegularExpressions;
-using Satrabel.DataSource;
+using Satrabel.OpenBlocks.DataSource;
 using DotNetNuke.UI.Utilities;
 using System.Reflection;
 
-namespace Satrabel.Providers.TemplateEngine
+namespace Satrabel.OpenBlocks.TemplateEngine
 {
     public class HtmlTemplateProvider : TemplateProvider
     {

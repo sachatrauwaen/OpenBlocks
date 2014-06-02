@@ -1,4 +1,4 @@
-<%@ Control Language="C#" AutoEventWireup="true" Inherits="Satrabel.Token.Token_Settings" Codebehind="Token_Settings.ascx.cs" %>
+<%@ Control Language="C#" AutoEventWireup="true" Inherits="Satrabel.OpenBlocks.Token_Settings" Codebehind="Token_Settings.ascx.cs" %>
 
 <%@ Register TagPrefix="dnn" TagName="Label" Src="~/controls/LabelControl.ascx" %>
 

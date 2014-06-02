@@ -1,5 +1,5 @@
 ﻿
-using Satrabel.Modules.OpenBlocks.Components;
+using Satrabel.OpenBlocks.Block;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -9,7 +9,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 
 
-namespace Satrabel.Token
+namespace Satrabel.OpenBlocks.Token
 {
     public partial class BlockConfigurator : TokenConfigurator
     {

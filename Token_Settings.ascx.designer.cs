@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Satrabel.Token {
+namespace Satrabel.OpenBlocks {
     
     
     public partial class Token_Settings {

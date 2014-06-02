@@ -1,7 +1,7 @@
 ﻿using DotNetNuke.Services.Exceptions;
 using DotNetNuke.Services.Localization;
 using DotNetNuke.UI.Utilities;
-using Satrabel.Token;
+using Satrabel.OpenBlocks.Token;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,7 +10,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace SatraBel.Widget
+namespace SatraBel.OpenBlocks
 {
     public partial class TokenSettings : System.Web.UI.UserControl 
     {

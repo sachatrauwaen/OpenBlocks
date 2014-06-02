@@ -6,7 +6,7 @@ using DotNetNuke.ComponentModel;
 using DotNetNuke.Framework.Providers;
 using DotNetNuke.Instrumentation;
 
-namespace Satrabel.Token
+namespace Satrabel.OpenBlocks.Token
 {
 
     public abstract class TokenProvider

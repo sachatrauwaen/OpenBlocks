@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" Inherits="Satrabel.Token.HtmlModuleConfigurator" Codebehind="HtmlModuleConfigurator.ascx.cs" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" Inherits="Satrabel.OpenBlocks.Token.HtmlModuleConfigurator" Codebehind="HtmlModuleConfigurator.ascx.cs" %>
 
 
 <div class="dnnFormItem">

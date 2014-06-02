@@ -1,5 +1,5 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true"
-    Inherits="Satrabel.DataSource.RssConfigurator" Codebehind="RssConfigurator.ascx.cs" %>
+    Inherits="Satrabel.OpenBlocks.DataSource.RssConfigurator" Codebehind="RssConfigurator.ascx.cs" %>
 
 
 <div class="dnnFormItem">

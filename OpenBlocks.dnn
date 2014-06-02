@@ -45,7 +45,7 @@
           <desktopModule>
             <moduleName>OpenBlocks</moduleName>
             <foldername>OpenBlocks</foldername>
-            <businessControllerClass>Satrabel.Modules.OpenBlocks.Components.FeatureController</businessControllerClass>
+            <businessControllerClass>Satrabel.OpenBlocks.Block.FeatureController</businessControllerClass>
             <supportedFeatures />
             <moduleDefinitions>
               <moduleDefinition>
@@ -91,7 +91,7 @@
         <component type="Assembly">
           <assemblies>
             <assembly>
-              <name>OpenBlocks.dll</name>
+              <name>Satrabel.OpenBlocks.dll</name>
               <path>bin</path>
             </assembly>
           </assemblies>
@@ -104,7 +104,7 @@
               <configuration>
                 <nodes>
                   <node path="/configuration/system.webServer/modules" action="update" key="name" collision="overwrite">
-                    <add name="TokenReplace" type="Satrabel.Token.TokenReplaceModule, OpenBlocks" preCondition="managedHandler" />
+                    <add name="TokenReplace" type="Satrabel.OpenBlocks.Token.TokenReplaceModule, Satrabel.OpenBlocks" preCondition="managedHandler" />
                   </node>
                   
                   <node path="/configuration/configSections/sectionGroup[@name='dotnetnuke']" action="update" key="name" collision="overwrite">
@@ -117,9 +117,9 @@
                     <tokenEngine defaultProvider="blockTokenProvider">
                       <providers>
                         <clear/>
-                        <add name="blockTokenProvider" type="Satrabel.Token.BlockTokenProvider" FriendlyName="block" Configurator="~\DesktopModules\OpenBlocks\Providers\TokenProvider\Block\BlockConfigurator.ascx" />
-                        <add name="widgetTokenProvider" type="Satrabel.Token.WidgetTokenProvider" FriendlyName="widget" Configurator="~\DesktopModules\OpenBlocks\Providers\TokenProvider\Widget\WidgetConfigurator.ascx" />
-                        <add name="htmlmoduleTokenProvider" type="Satrabel.Token.HtmlModuleTokenProvider" FriendlyName="htmlmodule" Configurator="~\DesktopModules\OpenBlocks\Providers\TokenProvider\HtmlModule\HtmlModuleConfigurator.ascx" />
+                        <add name="blockTokenProvider" type="Satrabel.OpenBlocks.Token.BlockTokenProvider, Satrabel.OpenBlocks" FriendlyName="block" Configurator="~\DesktopModules\OpenBlocks\Providers\TokenProvider\Block\BlockConfigurator.ascx" />
+                        <add name="widgetTokenProvider" type="Satrabel.OpenBlocks.Token.WidgetTokenProvider, Satrabel.OpenBlocks" FriendlyName="widget" Configurator="~\DesktopModules\OpenBlocks\Providers\TokenProvider\Widget\WidgetConfigurator.ascx" />
+                        <add name="htmlmoduleTokenProvider" type="Satrabel.OpenBlocks.Token.HtmlModuleTokenProvider, Satrabel.OpenBlocks" FriendlyName="htmlmodule" Configurator="~\DesktopModules\OpenBlocks\Providers\TokenProvider\HtmlModule\HtmlModuleConfigurator.ascx" />
                       </providers>
                     </tokenEngine>
                   </node>
@@ -128,7 +128,7 @@
                     <dataEngine defaultProvider="blockTokenProvider">
                       <providers>
                         <clear />
-                        <add name="rssDataSourceProvider" type="Satrabel.DataSource.RssDataSourceProvider" FriendlyName="RSS" Configurator="~\DesktopModules\OpenBlocks\Providers\DataSourceProvider\RssDataSourceProvider\RssConfigurator.ascx" />
+                        <add name="rssDataSourceProvider" type="Satrabel.OpenBlocks.DataSource.RssDataSourceProvider, Satrabel.OpenBlocks" FriendlyName="RSS" Configurator="~\DesktopModules\OpenBlocks\Providers\DataSourceProvider\RssDataSourceProvider\RssConfigurator.ascx" />
                       </providers>
                     </dataEngine>
                   </node>
@@ -137,9 +137,8 @@
                     <templateEngine defaultProvider="razorTemplateProvider">
                       <providers>
                         <clear />
-                        <add name="razorTemplateProvider" type="Satrabel.Providers.TemplateEngine.RazorTemplateProvider" />
-                        <add name="liquidTemplateProvider" type="Satrabel.Providers.TemplateEngine.LiquidTemplateProvider" />
-                        <add name="htmlTemplateProvider" type="Satrabel.Providers.TemplateEngine.HtmlTemplateProvider" />
+                        <add name="razorTemplateProvider" type="Satrabel.OpenBlocks.TemplateEngine.RazorTemplateProvider, Satrabel.OpenBlocks" />                        
+                        <add name="htmlTemplateProvider" type="Satrabel.OpenBlocks.TemplateEngine.HtmlTemplateProvider, Satrabel.OpenBlocks" />
                       </providers>
                     </templateEngine>
                   </node>
@@ -189,7 +188,7 @@
           <desktopModule>
             <moduleName>OpenTemplateStudio</moduleName>
             <foldername>OpenBlocks</foldername>
-            <businessControllerClass>Satrabel.Modules.OpenBlocks.Components.FeatureController</businessControllerClass>
+            <businessControllerClass />
             <supportedFeatures />
             <moduleDefinitions>
               <moduleDefinition>
@@ -258,7 +257,7 @@
           <desktopModule>
             <moduleName>OpenToken</moduleName>
             <foldername>OpenBlocks</foldername>
-            <businessControllerClass>Satrabel.Modules.OpenBlocks.Components.FeatureController</businessControllerClass>
+            <businessControllerClass />
             <supportedFeatures />
             <moduleDefinitions>
               <moduleDefinition>

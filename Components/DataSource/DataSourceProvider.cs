@@ -7,7 +7,7 @@ using System.Reflection;
 using System.Globalization;
 using DotNetNuke.Framework.Providers;
 
-namespace Satrabel.DataSource
+namespace Satrabel.OpenBlocks.DataSource
 {
 
     public abstract class DataSourceProvider

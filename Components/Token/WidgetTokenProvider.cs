@@ -9,10 +9,10 @@ using DotNetNuke.Entities.Portals;
 using DotNetNuke.UI.Modules;
 using DotNetNuke.Framework;
 using System.Reflection;
-using Satrabel.DataSource;
-using Satrabel.Providers.TemplateEngine;
+using Satrabel.OpenBlocks.DataSource;
+using Satrabel.OpenBlocks.TemplateEngine;
 
-namespace Satrabel.Token
+namespace Satrabel.OpenBlocks.Token
 {
     public class WidgetTokenProvider : TokenProvider
     {

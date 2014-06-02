@@ -11,7 +11,7 @@ using DotNetNuke.Common.Utilities;
 using DotNetNuke.Services.Localization;
 using System.Collections;
 
-namespace Satrabel.DataSource
+namespace Satrabel.OpenBlocks.DataSource
 {
 
     public partial class RssConfigurator : DataSourceConfigurator

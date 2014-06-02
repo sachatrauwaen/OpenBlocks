@@ -13,7 +13,7 @@ using System.Collections.Generic;
 using DotNetNuke.Data;
 using System.Linq;
 
-namespace Satrabel.Modules.OpenBlocks.Components
+namespace Satrabel.OpenBlocks.Block
 {
     public class BlockController
     {

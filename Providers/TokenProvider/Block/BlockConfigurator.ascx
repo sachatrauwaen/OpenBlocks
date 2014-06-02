@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" Inherits="Satrabel.Token.BlockConfigurator" Codebehind="BlockConfigurator.ascx.cs" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" Inherits="Satrabel.OpenBlocks.Token.BlockConfigurator" Codebehind="BlockConfigurator.ascx.cs" %>
 
 
 <div class="dnnFormItem">

@@ -8,7 +8,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI.WebControls;
 
-namespace Satrabel.Modules.OpenBlocks.Components.Configurator
+namespace Satrabel.OpenBlocks.Configurator
 {
     public class ConfiguratorUtils
     {

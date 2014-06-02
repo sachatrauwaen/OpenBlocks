@@ -5,7 +5,7 @@ using System.Web;
 using System.Text.RegularExpressions;
 using System.Xml;
 
-namespace Satrabel.Token
+namespace Satrabel.OpenBlocks.Token
 {
     public class TokenReplaceUtils
     {

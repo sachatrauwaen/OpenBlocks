@@ -3,12 +3,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using Satrabel.DataSource;
+using Satrabel.OpenBlocks.DataSource;
 using DotNetNuke.Modules.Html;
 using DotNetNuke.Common.Utilities;
 
 
-namespace Satrabel.DataSource
+namespace Satrabel.OpenBlocks.DataSource
 {
 
     public class HtmlModuleDataSourceProvider : DataSourceProvider

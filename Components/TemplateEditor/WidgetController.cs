@@ -19,11 +19,11 @@ using System.Web;
 using System.IO;
 using DotNetNuke.Security;
 using System.Collections.Generic;
-using Satrabel.Token;
+using Satrabel.OpenBlocks.Token;
 
 #endregion
 
-namespace Satrabel.TemplateEditor
+namespace Satrabel.OpenBlocks.TemplateEditor
 {
     [AllowAnonymous]
     public class WidgetController : DnnApiController

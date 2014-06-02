@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="Block_Settings.ascx.cs" Inherits="Satrabel.Modules.OpenBlocks.Block_Settings" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="Block_Settings.ascx.cs" Inherits="Satrabel.OpenBlocks.Block_Settings" %>
 
 
 <!-- uncomment the code below to start using the DNN Form pattern to create and update settings -->

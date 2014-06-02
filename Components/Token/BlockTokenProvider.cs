@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using DotNetNuke.Common.Utilities;
-using Satrabel.Modules.OpenBlocks.Components;
+using Satrabel.OpenBlocks.Block;
 using DotNetNuke.Entities.Portals;
 using DotNetNuke.Services.Localization;
 
-namespace Satrabel.Token
+namespace Satrabel.OpenBlocks.Token
 {
     public class BlockTokenProvider : TokenProvider
     {

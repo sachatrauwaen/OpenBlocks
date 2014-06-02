@@ -13,7 +13,7 @@
 using System;
 using System.Web.UI.WebControls;
 using System.Collections.Generic;
-using Satrabel.Modules.OpenBlocks.Components;
+using Satrabel.OpenBlocks.Block;
 using DotNetNuke.Security;
 using DotNetNuke.Services.Exceptions;
 using DotNetNuke.Entities.Modules;
@@ -21,7 +21,7 @@ using DotNetNuke.Entities.Modules.Actions;
 using DotNetNuke.Services.Localization;
 using DotNetNuke.UI.Utilities;
 
-namespace Satrabel.Modules.OpenBlocks
+namespace Satrabel.OpenBlocks
 {
     /// -----------------------------------------------------------------------------
     /// <summary>
@@ -73,7 +73,7 @@ namespace Satrabel.Modules.OpenBlocks
                 var lnkDelete = e.Row.FindControl("lnkDelete") as ImageButton;
 
 
-                var t = (Block)e.Row.DataItem;
+                var t = (Satrabel.OpenBlocks.Block.Block)e.Row.DataItem;
 
                 if (lnkDelete != null && lnkEdit != null)
                 {

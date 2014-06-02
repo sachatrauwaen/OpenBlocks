@@ -8,7 +8,7 @@ using System.IO;
 using DotNetNuke.Web.Client;
 
 
-namespace Satrabel.Providers.TemplateEngine
+namespace Satrabel.OpenBlocks.TemplateEngine
 {
     
     public class TemplateHelper

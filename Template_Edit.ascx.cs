@@ -22,7 +22,7 @@ using DotNetNuke.Web.UI.WebControls;
 
 #endregion
 
-namespace SatraBel.TemplateEditor
+namespace SatraBel.OpenBlocks
 {
     public partial class Template_Edit : PortalModuleBase
     {

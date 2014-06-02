@@ -7,7 +7,7 @@ using System.IO;
 using DotNetNuke.Entities.Portals;
 using System.Web.Hosting;
 
-namespace Satrabel.Providers.TemplateEngine
+namespace Satrabel.OpenBlocks.TemplateEngine
 {
 
     public abstract class TemplateProvider
