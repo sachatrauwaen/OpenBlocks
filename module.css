@@ -1,11 +1,11 @@
 #templateEditor .col1
 {
-    width: 20%;
+    width: 25%;
     float: left;
 }
 #templateEditor .col2
 {
-    width: 80%;
+    width: 75%;
     float: left;
 }
 
@@ -27,12 +27,14 @@
 
 #templateEditor .CodeMirror
     {
-        min-height: 482px;
+        min-height: 480px;
         width: 100%;
         max-width: 1000px;
+        border: 1px solid #aaa;
     }
 #templateEditor .CodeMirror-fullscreen
     {
+        position: fixed !important;
         max-width: none;
         padding-top : 60px;
     }

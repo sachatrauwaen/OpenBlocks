@@ -148,7 +148,7 @@ namespace SatraBel.OpenBlocks
             //DotNetNuke.Framework.AJAX.RegisterPostBackControl(btnValid);
             DotNetNuke.Framework.AJAX.RegisterPostBackControl(lkbDelete);
             //DotNetNuke.Framework.AJAX.RegisterPostBackControl(lkbRun);
-            lkbData.Visible = hlDataSource.Visible = hlPreview.Visible = hlWidget.Visible = ddlModule.SelectedValue == "widgets";
+            lkbData.Visible = hlDataSource.Visible = hlPreview.Visible = hlWidget.Visible = (ddlModule.SelectedValue == "widgets" || ddlModule.SelectedValue =="RazorModules/RazorHost");
         }
 
         private void RefreshControls()

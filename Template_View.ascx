@@ -77,12 +77,12 @@
             </div>
             <div>
                 <div class="col1">
-                    <dnn:DnnFileExplorer runat="server" ID="dfeTree" ExplorerMode="FileTree" Width="231px" Configuration-MaxUploadFileSize="10000000"
+                    <dnn:DnnFileExplorer runat="server" ID="dfeTree" ExplorerMode="FileTree" Width="99%" Configuration-MaxUploadFileSize="10000000"
                         RenderMode="Classic" EnableCopy="True" EnableOpenFile="false" OnClientFileOpen="OnClientItemSelected">
                     </dnn:DnnFileExplorer>
                 </div>
                 <div class="col2">
-                    <div class="dnnFormItem" style="background-color: #aaa; color: #fff">
+                    <div class="dnnFormItem" style="background-color: #aaa; color: #fff;border: 1px solid #aaa;">
                         <asp:Label ID="lFileName" runat="server"></asp:Label>
                     </div>
                     <div class="dnnFormItem" id="divEditor">

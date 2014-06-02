@@ -66,7 +66,7 @@ namespace Satrabel.OpenBlocks.TemplateEditor
             string realfilename = HostingEnvironment.MapPath(submitted.Filename);
             string Content = "Add new file content";
             if (Path.GetExtension(realfilename) == ".cshtml") {
-                Content = "@inherits Satrabel.Providers.TemplateEngine.TemplateWebPage";
+                Content = "@inherits Satrabel.OpenBlocks.TemplateEngine.TemplateWebPage";
             }
             File.WriteAllText(realfilename, Content);
 
