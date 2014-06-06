@@ -9,7 +9,7 @@
   });
 
   function setFullscreen(cm) {
-    var wrap = cm.getWrapperElement();
+      var wrap = cm.getWrapperElement();
     cm.state.fullScreenRestore = {scrollTop: window.pageYOffset, scrollLeft: window.pageXOffset,
                                   width: wrap.style.width, height: wrap.style.height};
     wrap.style.width = "";

@@ -35,6 +35,7 @@ namespace Satrabel.OpenBlocks.Token
                 
             try
             {
+                /*
                 string ModelType = "";
                 if (parameters.ContainsKey("datatype"))
                 {
@@ -71,6 +72,8 @@ namespace Satrabel.OpenBlocks.Token
                 {
                     Model = provider.Invoke(ModelConstructor, ModelParameters);
                 }
+                 */
+                object Model = DataSourceUtils.GetModel(ModelParameters);
                 if (filename != "")
                 {
                     return TemplateProvider.FindProviderAndExecute(path, filename, Model);

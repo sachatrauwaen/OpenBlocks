@@ -20,22 +20,21 @@
                 <asp:Label ID="Label1" runat="server" Text="Module"></asp:Label><br />
                 <asp:DropDownList ID="ddlModule" runat="server" DataTextField="FriendlyName" Width="100%"
                     DataValueField="FolderName" AutoPostBack="true" AppendDataBoundItems="true" OnSelectedIndexChanged="ddlModule_SelectedIndexChanged">
-                    <asp:ListItem Value="0" resourceKey="selectModule"></asp:ListItem>
+                    
                 </asp:DropDownList>
             </div>
             <div style="display: inline-block; width: 30%">
                 <asp:Label ID="Label2" runat="server" Text="Storage"></asp:Label><br />
                 <asp:DropDownList ID="ddlType" runat="server" OnSelectedIndexChanged="ddlType_SelectedIndexChanged" Width="100%"
                     AutoPostBack="True">
-                    <asp:ListItem Value="" resourceKey="selectType"></asp:ListItem>
                     <asp:ListItem Value="1" resourceKey="selectSyst"></asp:ListItem>
                     <asp:ListItem Value="2" resourceKey="selectHost"></asp:ListItem>
-                    <asp:ListItem Value="3" resourceKey="selectSite"></asp:ListItem>
+                    <asp:ListItem Value="3" resourceKey="selectSite" Selected="True"></asp:ListItem>
                 </asp:DropDownList>
             </div>
             <div style="display: inline-block; width: 30%">
                 <asp:Label ID="Label3" runat="server" Text="Template"></asp:Label><br />
-                <asp:TextBox ID="tbxNewTemplate" runat="server" placeholder=" Nom du nouveau template" Width="100%"></asp:TextBox>
+                <asp:TextBox ID="tbxNewTemplate" runat="server" placeholder="Name of the new template" Width="100%"></asp:TextBox>
             </div>
         </div>
         <div style="height: 40px">
@@ -73,7 +72,7 @@
     <ul class="dnnActions dnnClear">
         <li>
             <asp:Button ID="btnValid" resourcekey="btnValid" runat="server" CssClass="dnnPrimaryAction"
-                OnClick="btnValid_Click" Enabled="false" EnableViewState="False" /></li>
+                OnClick="btnValid_Click"  EnableViewState="False" /></li>
         <li>
             <asp:Button ID="btnCancel" resourcekey="btnCancel" runat="server" CssClass="dnnSecondaryAction"
                 OnClick="btnCancel_Click" CausesValidation="False" /></li>

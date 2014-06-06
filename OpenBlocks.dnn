@@ -94,6 +94,11 @@
               <name>Satrabel.OpenBlocks.dll</name>
               <path>bin</path>
             </assembly>
+            <assembly>
+              <name>ImageResizer.dll</name>
+              <path>bin</path>
+            </assembly>
+          
           </assemblies>
         </component>
 
@@ -142,6 +147,22 @@
                       </providers>
                     </templateEngine>
                   </node>
+
+                  <node path="/configuration/configSections" action="update" key="name" collision="ignore">
+                    <section name="resizer" type="ImageResizer.ResizerSection,ImageResizer"  requirePermission="false" />
+                  </node>
+                  <node path="/configuration" targetpath="/configuration/resizer" action="update" collision="ignore">
+                    <resizer>                      
+                      <plugins>
+                       
+                      </plugins>
+                    </resizer>
+                  </node>
+                  
+                  <node path="/configuration/system.webServer/modules" action="update" key="name" collision="ignore">
+                    <add name="ImageResizingModule" type="ImageResizer.InterceptModule"/>
+                  </node>
+                  
                 </nodes>
               </configuration>
             </install>
@@ -158,6 +179,11 @@
                   <node path="/configuration/dotnetnuke/dataEngine" action="remove" />
                   <node path="/configuration/dotnetnuke/templateEngine" action="remove" />
 
+                  <node path="/configuration/configSections/section[@name='resizer']" action="remove" />
+                  <node path="/configuration/resizer" action="remove" />
+                  
+                  <node path="/configuration/system.webServer/modules/add[@name='ImageResizingModule']" action="remove" />
+                  
                 </nodes>
               </configuration>
             </uninstall>

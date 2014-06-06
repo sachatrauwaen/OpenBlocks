@@ -31,6 +31,16 @@ namespace SatraBel.OpenBlocks
             if (!Page.IsPostBack)
             {
                 TemplateEditorUtils.ModuleDataBind(ddlModule, PortalId, LocalResourceFile, Server);
+                ddlModule.SelectedValue = "widgets";
+                if (Request.Cookies["ddlModule"] != null)
+                {
+                    string module_value = Request.Cookies["ddlModule"].Value.ToString();
+                    var module_item = ddlModule.Items.FindByValue(module_value);
+                    if (module_item != null)
+                    {
+                        ddlModule.SelectedValue = module_value;
+                    }
+                }
             }
         }
         protected void rblMode_SelectedIndexChanged(object sender, EventArgs e)
@@ -44,11 +54,8 @@ namespace SatraBel.OpenBlocks
             lblZip.Visible = false;
             updZip.Visible = false;
 
-            if ((rblMode.SelectedValue == "0" || rblMode.SelectedValue == "2") && (ddlModule.SelectedIndex > 0 && ddlType.SelectedIndex > 0))
-                btnValid.Enabled = true;
 
 
-            
             if (rblMode.SelectedValue == "1")
             {
                 //lblMode.Text = Localization.GetString("lblModeCopy", LocalResourceFile);
@@ -91,8 +98,6 @@ namespace SatraBel.OpenBlocks
         {
             if (rblMode.SelectedValue == "0" || rblMode.SelectedValue == "2")
             {
-                if (ddlModule.SelectedIndex > 0 && ddlType.SelectedIndex > 0)
-                    btnValid.Enabled = true;
 
                 if (rblMode.SelectedValue == "2")
                 {
@@ -107,10 +112,6 @@ namespace SatraBel.OpenBlocks
                     //lblMode.Text = Localization.GetString("lblModeCopy", LocalResourceFile);
                     //lblMode.HelpText = Localization.GetString("lblModeCopy.Help", LocalResourceFile);
 
-                    if (ddlModule.SelectedIndex > 0 && ddlType.SelectedIndex > 0 && ddlTypeCopy.SelectedIndex > 0 && ddlTemplate.SelectedIndex > 0)
-                    {
-                        btnValid.Enabled = true;
-                    }
                 }
             }
         }
@@ -127,7 +128,6 @@ namespace SatraBel.OpenBlocks
 
         protected void ddlTemplate_SelectedIndexChanged(object sender, EventArgs e)
         {
-            btnValid.Enabled = ddlModule.SelectedIndex > 0 && ddlType.SelectedIndex > 0 && ddlTypeCopy.SelectedIndex > 0 && ddlTemplate.SelectedIndex > 0;
             if (rblMode.SelectedValue == "1")
             {
                 //lblMode.Text = Localization.GetString("lblModeCopy", LocalResourceFile);
@@ -144,45 +144,40 @@ namespace SatraBel.OpenBlocks
                 Response.Cookies.Add(myCookie);
             }
             Response.Cookies["ddlModule"].Value = ddlModule.SelectedValue;
-            Response.Cookies["ddlType"].Value = ddlType.SelectedValue;
-            Response.Cookies["ddlTemplate"].Value = tbxNewTemplate.Text;
+            //Response.Cookies["ddlType"].Value = ddlType.SelectedValue;
+            //Response.Cookies["ddlTemplate"].Value = tbxNewTemplate.Text;
+            string newpath = TemplateEditorUtils.GenerateDirectory(ddlModule.SelectedValue, int.Parse(ddlType.SelectedValue), tbxNewTemplate.Text, PortalId, Server, false);
+            Response.Cookies["ddlTemplate"].Value = newpath; 
+            newpath = Server.MapPath(newpath);
+            Directory.CreateDirectory(newpath);
 
             if (rblMode.SelectedValue == "0")
             {
-                string newpath = Server.MapPath(TemplateEditorUtils.GenerateDirectory(ddlModule, ddlType, tbxNewTemplate, PortalId, Server));
-                Directory.CreateDirectory(newpath);
+
+                Response.Redirect(Globals.NavigateURL(), true);
+            }
+            else if (rblMode.SelectedValue == "1")
+            {
+                string copypath = Server.MapPath(TemplateEditorUtils.GenerateDirectory(ddlModule, ddlTypeCopy, ddlTemplate, PortalId, Server));
+                CopyDirectoriesAndFiles(copypath, newpath);
+                Response.Redirect(Globals.NavigateURL(), true);
+            }
+            else if (rblMode.SelectedValue == "2" && updZip.HasFile)
+            {
+                UnzipFile(updZip.PostedFile);
                 Response.Redirect(Globals.NavigateURL(), true);
             }
             else
             {
-                if (rblMode.SelectedValue == "1")
-                {
-                    string newpath = Server.MapPath(TemplateEditorUtils.GenerateDirectory(ddlModule, ddlType, tbxNewTemplate, PortalId, Server));
-                    Directory.CreateDirectory(newpath);
-                    string copypath = Server.MapPath(TemplateEditorUtils.GenerateDirectory(ddlModule, ddlTypeCopy, ddlTemplate, PortalId, Server));
-                    CopyDirectoriesAndFiles(copypath, newpath);
-                    Response.Redirect(Globals.NavigateURL(), true);
-                }
-                else
-                {
-                    if (rblMode.SelectedValue == "2" && updZip.HasFile)
-                    {
-                        string newpath = Server.MapPath(TemplateEditorUtils.GenerateDirectory(ddlModule, ddlType, tbxNewTemplate, PortalId, Server));
-                        Directory.CreateDirectory(newpath);
-                        UnzipFile(updZip.PostedFile);
-                        Response.Redirect(Globals.NavigateURL(), true);
-                    }
-                    else
-                    {
-                        //lblMode.Text = Localization.GetString("lblModeZip", LocalResourceFile);
-                        //lblMode.HelpText = Localization.GetString("lblModeZip.Help", LocalResourceFile);
-                        btnValid.Enabled = true;
-                        lblemptyFile.Visible = true;
-                        lblemptyFile.Text = Localization.GetString("emptyFile", LocalResourceFile);
+                //lblMode.Text = Localization.GetString("lblModeZip", LocalResourceFile);
+                //lblMode.HelpText = Localization.GetString("lblModeZip.Help", LocalResourceFile);
 
-                    }
-                }
+                lblemptyFile.Visible = true;
+                lblemptyFile.Text = Localization.GetString("emptyFile", LocalResourceFile);
+
             }
+
+
         }
 
         private void CopyDirectoriesAndFiles(string copypath, string newpath)

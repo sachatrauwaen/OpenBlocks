@@ -132,18 +132,49 @@ namespace SatraBel.OpenBlocks
                 {
                     var ht = conf.SaveSettings();
                     List<string> lst = new List<string>();
+                    var ModelParameters = new Dictionary<string, string>();
                     foreach (DictionaryEntry item in ht)
                     {
                         lst.Add(item.Key + "=" + item.Value);
+                        ModelParameters.Add((string)item.Key, (string)item.Value);
                     }
                     File.WriteAllLines(dsFileName, lst.ToArray());
+                    UpdateRazorFile(realfilename,  ModelParameters);
                 }
+            }
+            Response.Redirect(DotNetNuke.Common.Globals.NavigateURL());
+        }
+
+        private void UpdateRazorFile(string realfilename,  Dictionary<string, string> Parameters)
+        {
+
+            if (Path.GetExtension(realfilename) == ".cshtml")
+            {
+                try
+                {
+                    object Model = DataSourceUtils.GetModel(Parameters);
+
+                    string[] Lines = File.ReadAllLines(realfilename);
+                    if (Lines.Length > 0 && Lines[0].Contains("@inherits"))
+                    {
+                        Lines[0] = "@inherits Satrabel.OpenBlocks.TemplateEngine.TemplateWebPage<" + Model.GetType().FullName + ">";
+                        File.WriteAllLines(realfilename, Lines);
+                    }
+                }
+                catch (Exception)
+                {
+                    
+                    throw;
+                }
+                
+
+               
             }
         }
 
         protected void btnCancel_Click(object sender, EventArgs e)
         {
-
+            Response.Redirect(DotNetNuke.Common.Globals.NavigateURL());
         }
 
     }

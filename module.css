@@ -1,12 +1,16 @@
 #templateEditor .col1
 {
     width: 25%;
+    height:100%;
     float: left;
+    min-height: 198px;
 }
 #templateEditor .col2
 {
     width: 75%;
+    height:100%;
     float: left;
+    min-height: 198px;
 }
 
 #templateEditor .imgEdit
@@ -27,9 +31,9 @@
 
 #templateEditor .CodeMirror
     {
-        min-height: 480px;
+        min-height: 180px;
         width: 100%;
-        max-width: 1000px;
+        max-width: 1500px;
         border: 1px solid #aaa;
     }
 #templateEditor .CodeMirror-fullscreen
@@ -114,3 +118,19 @@ a.dnnSecondaryAction.dnnDisabled
 {
     color:#0D569E;    
 }
+
+ .overlay {  
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    z-index:1000;
+    background-color:#eee;
+     
+  }
+
+ .overlay .dnnForm{  
+  padding:60px;
+  width:auto;
+  }

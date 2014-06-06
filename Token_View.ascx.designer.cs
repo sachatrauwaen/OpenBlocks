@@ -22,15 +22,6 @@ namespace Satrabel.OpenBlocks {
         protected global::System.Web.UI.WebControls.PlaceHolder PlaceHolder1;
         
         /// <summary>
-        /// plField control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.UserControl plField;
-        
-        /// <summary>
         /// txtField control.
         /// </summary>
         /// <remarks>

@@ -23,8 +23,11 @@ public class TemplateEditorUtils
     {
         return GenerateDirectory(ddlModule.SelectedValue, int.Parse(ddlType.SelectedValue), tbxNewTemplate.Text, PortalId, Server);
     }
-
     public static string GenerateDirectory(string Module, int Type, string template, int PortalId, HttpServerUtility Server)
+    { 
+        return GenerateDirectory(Module, Type, template, PortalId, Server, false);
+    }
+    public static string GenerateDirectory(string Module, int Type, string template, int PortalId, HttpServerUtility Server, bool CheckDirExist)
     {
         string path = "";
 
@@ -33,7 +36,7 @@ public class TemplateEditorUtils
         foreach (string item in pathLst)
         {
 
-            if (Directory.Exists(Server.MapPath(item)))
+            if (!CheckDirExist || Directory.Exists(Server.MapPath(item)))
             {
                 path = item + template;
                 break;

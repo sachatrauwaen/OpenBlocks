@@ -3,8 +3,6 @@
 <%@ Register TagPrefix="dnn" Namespace="DotNetNuke.Web.UI.WebControls" Assembly="DotNetNuke.Web" %>
 <%@ Register TagPrefix="dnn" Namespace="DotNetNuke.Web.Client.ClientResourceManagement" Assembly="DotNetNuke.Web.Client" %>
 
-
-
 <%-- Custom CSS Registration --%>
 <dnn:DnnCssInclude ID="DnnCssInclude3" runat="server" FilePath="~/DesktopModules/OpenBlocks/js/CodeMirror/addon/display/fullscreen.css" />
 <dnn:DnnCssInclude ID="DnnCssInclude1" runat="server" FilePath="~/DesktopModules/OpenBlocks/js/CodeMirror/lib/codemirror.css" />
@@ -54,7 +52,7 @@
     Priority="104" />
 
 
-<asp:Panel ID="ScopeWrapper" runat="server">
+<asp:Panel ID="ScopeWrapper" runat="server" CssClass="">
     <div class="dnnForm" id="templateEditor">
         <fieldset>
             <div class="dnnFormItem" style="width: 100%;">
@@ -74,15 +72,22 @@
                         <asp:ListItem Value="" resourceKey="selectTemplate"></asp:ListItem>
                     </asp:DropDownList>
                 </div>
+                <div style="display: inline-block">
+                    <asp:CheckBox ID="cbFullScreen" runat="server" Text="Optimize Size" ClientIDMode="Static" OnCheckedChanged="cbFullScreen_CheckedChanged" AutoPostBack="true" />
+                </div>
+                <div style="display: inline-block;float:right;padding-top:30px;">
+                    <h2>Template Studio</h2>
+                </div>
             </div>
-            <div>
+            <div class="editorContainer">
                 <div class="col1">
                     <dnn:DnnFileExplorer runat="server" ID="dfeTree" ExplorerMode="FileTree" Width="99%" Configuration-MaxUploadFileSize="10000000"
-                        RenderMode="Classic" EnableCopy="True" EnableOpenFile="false" OnClientFileOpen="OnClientItemSelected">
+                        RenderMode="Classic" EnableCopy="True" EnableOpenFile="false" OnClientFileOpen="OnClientItemSelected"  
+                        OnClientLoad="OnClientLoad" Height="100%">
                     </dnn:DnnFileExplorer>
                 </div>
                 <div class="col2">
-                    <div class="dnnFormItem" style="background-color: #aaa; color: #fff;border: 1px solid #aaa;">
+                    <div class="dnnFormItem" style="background-color: #aaa; color: #fff;border: 1px solid #aaa;height:18px">
                         <asp:Label ID="lFileName" runat="server"></asp:Label>
                     </div>
                     <div class="dnnFormItem" id="divEditor">
@@ -93,15 +98,10 @@
                     </div>
                     <div class="dnnFormItem" style="height: 482px; overflow: auto; width: 100%; display: none" id="divRun">
                     </div>
-
-                   
-
                 </div>
                 <div class="clear">
                 </div>
             </div>
-
-
         </fieldset>
         <ul class="dnnActions dnnClear">
             <li>
@@ -134,11 +134,16 @@
                 <li>
                     <asp:HyperLink ID="hlWidget" runat="server" resourcekey="hlWidget" CssClass="dnnSecondaryAction" EnableViewState="False" />
                 </li>
+                 <li>
+                    <div style="border-left: 1px solid #000; padding-right: 5px; margin-left: 5px; height: 30px;"></div>
+                </li>
+                 <li style="float:right;padding-top:10px;">
+                    F11 : Fullscreen | CTRL-S : Save | CTRL-SPACE : autocomplete
+                </li>
+                
             </asp:PlaceHolder>
         </ul>
-        <div>
-            F11 : Fullscreen | CTRL-S : Save | CTRL-SPACE : code autocomplete
-        </div>
+        
     </div>
 </asp:Panel>
 <asp:Label ID="lblMsg" runat="server" Style="width: 25%; text-align: center" CssClass="dnnFormMessage dnnFormSuccess"
@@ -265,7 +270,7 @@
         var pathToItem = args.get_node().get_attributes().getAttribute('Path');
         if (menuItemValue == "newfile") {
             //var dirPath = oExplorer.get_currentDirectory();
-            var filename = prompt("File Name", "newfile.htm");
+            var filename = prompt("File Name", "newfile.cshtml");
             if (filename != "" && filename != null) {
                 moduleService.newFile(pathToItem + '/' + filename);
             }
@@ -315,7 +320,7 @@
         $("#<%= hlDataSource.ClientID %>", moduleScope).click(function () {
             var DataSourceUrl = "<%= DataSourceUrl %>";
              var filename = $("#<%= lFileName.ClientID %>", moduleScope).html();
-             dnnModal.show(DataSourceUrl + "&template=" + escape(filename) , false, 550, 950, false);
+             dnnModal.show(DataSourceUrl + "&template=" + escape(filename) , false, 550, 950, true);
              return false;
          });
 
@@ -623,5 +628,46 @@
     }
     function endsWith(str, suffix) {
         return str.indexOf(suffix, str.length - suffix.length) !== -1;
+    }
+    $(document).ready(function () {
+        updateContainer();
+        $(window).resize(function () {
+            updateContainer();
+        });
+    });
+    function updateContainer() {
+        var containerHeight = $(window).height();
+
+        $('.editorContainer').height(containerHeight - $('.editorContainer').offset().top -110 );
+        //$('.editorContainer').height(containerHeight - 250);
+        $('#templateEditor .CodeMirror').height($('.editorContainer .col1').height() - 18);
+        ResizeExplorer();
+        cm.refresh();
+    }
+    function OnClientLoad(sender, args) {
+        setTimeout(function () { ResizeExplorer(); }, 0);
+    }
+    var resized = false;
+    function ResizeExplorer() { // The name of the div the RadFileExplorer is in: 
+        var height = $(".col1").height() - 20; 
+        var width = ($(".col1").width()) -5;
+        // The name of the RadFileExplorer goes here 
+        var explorer = $find("<%= dfeTree.ClientID %>");
+        var domSplitter = $("div[ID$='splitter']").attr("id");  
+        if (explorer) { 
+            resized = true; 
+            //var grid = explorer.get_grid(); 
+            var div = explorer.get_element(); 
+            var toolbar = explorer.get_toolbar();  
+            var splitter = $find(domSplitter); 
+            //resize explorer container div 
+            //div.style.height = height + "px"; 
+            //div.style.width = width + "px"; 
+            //div.style.border = "0px";  
+            //resize the splitter  
+            splitter.resize(width, height - toolbar.get_element().offsetHeight);   
+            //resize the grid height  
+            //grid.get_element().style.height = (height - toolbar.get_element().offsetHeight) + "px"; grid.repaint();
+        }
     }
 </script>

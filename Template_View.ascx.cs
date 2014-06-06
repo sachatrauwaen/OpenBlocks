@@ -42,11 +42,12 @@ namespace SatraBel.OpenBlocks
         public String DataSourceUrl;
         RadMenuItem customMenuOption = new RadMenuItem("New File");
 
-        
-       
+
+
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            
             ServicesFramework.Instance.RequestAjaxAntiForgerySupport();
             lkbDelete.Attributes.Add("onClick", " return confirm('" + Localization.GetString("msgConfirm", LocalResourceFile) + "')");
             lbCreate.NavigateUrl = EditUrl();
@@ -89,7 +90,7 @@ namespace SatraBel.OpenBlocks
              */
             if (!Page.IsPostBack)
             {
-                
+                //hlNoSkin.NavigateUrl = Request.RawUrl + "?SkinSrc=%5BG%5DSkins/_default/No%20Skin";
                 TemplateEditorUtils.ModuleDataBind(ddlModule, PortalId, LocalResourceFile, Server);
                 if (Request.Cookies["ddlModule"] != null)
                 {
@@ -118,9 +119,14 @@ namespace SatraBel.OpenBlocks
                         }
                     }
                 }
+                if (Request.Cookies["cbFullScreen"] != null)
+                {
+                    cbFullScreen.Checked = Boolean.Parse(Request.Cookies["cbFullScreen"].Value.ToString());
+                    //cbFullScreen_CheckedChanged(null, null);
+                    ScopeWrapper.CssClass = cbFullScreen.Checked ? "overlay" : "";
+                }
             }
             if (ddlTemplate.SelectedIndex > 0)
-           
             {
                 //string path = TemplateEditorUtils.GenerateDirectory(ddlModule, ddlType, ddlTemplate, PortalId, Server);
                 string path = ddlTemplate.SelectedValue;
@@ -135,7 +141,7 @@ namespace SatraBel.OpenBlocks
             else
             {
                 ClearTreeView();
-                
+
             }
             customMenuOption.Value = "newfile";
             dfeTree.TreeView.ContextMenus[0].Items.Add(customMenuOption);
@@ -148,7 +154,8 @@ namespace SatraBel.OpenBlocks
             //DotNetNuke.Framework.AJAX.RegisterPostBackControl(btnValid);
             DotNetNuke.Framework.AJAX.RegisterPostBackControl(lkbDelete);
             //DotNetNuke.Framework.AJAX.RegisterPostBackControl(lkbRun);
-            lkbData.Visible = hlDataSource.Visible = hlPreview.Visible = hlWidget.Visible = (ddlModule.SelectedValue == "widgets" || ddlModule.SelectedValue =="RazorModules/RazorHost");
+            lkbData.Visible = hlDataSource.Visible = hlPreview.Visible = hlWidget.Visible = (ddlModule.SelectedValue == "widgets" || ddlModule.SelectedValue == "RazorModules/RazorHost");
+            
         }
 
         private void RefreshControls()
@@ -196,20 +203,26 @@ namespace SatraBel.OpenBlocks
                 tbxEdit.Visible = false;
                 //imgEdit.Visible = true;
                 imgEdit.ImageUrl = filename;
+                lFileName.Text = filename;
             }
             else
             {
                 //btnValid.Visible = true;
                 tbxEdit.Visible = true;
                 //imgEdit.Visible = false;
-                tbxEdit.Text = File.ReadAllText(Server.MapPath(filename));
-                SetFileType(filename);
+                string RealFileName = Server.MapPath(filename);
+                if (File.Exists(RealFileName))
+                {
+                    tbxEdit.Text = File.ReadAllText(RealFileName);
+                    SetFileType(filename);
+                    lFileName.Text = filename;
+                }
             }
             lkbDelete.Visible = true;
             //lkbRun.Visible = Path.GetExtension(filename) == ".cshtml";
             //phToolbar.Visible = Path.GetExtension(filename) == ".cshtml";
             //lFileName.Text = tbxEdit.Visible ? filename : "";
-            lFileName.Text = filename;
+            
         }
         protected void ddlModule_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -423,6 +436,12 @@ namespace SatraBel.OpenBlocks
             Response.TransmitFile(filename);
             Response.Flush();
             Response.End();
+        }
+
+        protected void cbFullScreen_CheckedChanged(object sender, EventArgs e)
+        {
+            ScopeWrapper.CssClass = cbFullScreen.Checked ? "overlay" : "";
+            Response.Cookies["cbFullScreen"].Value = cbFullScreen.Checked.ToString() ;
         }
 
 
