@@ -49,7 +49,12 @@
       <SourceInclude Include="**\*.sln" />
       <SourceInclude Include="**\*.dnn" />
     </ItemGroup>
-    
+
+    <CreateItem Include="**\*.sqldataprovider">
+      <Output TaskParameter="Include" ItemName="SqlDataProviderFiles" />
+    </CreateItem>
+
+
     <CreateItem Include="$(DNNFileName).dnn">
       <Output TaskParameter="Include" ItemName="PackageManifestFiles" />
     </CreateItem>
@@ -84,18 +89,26 @@
     
     <Zip Files="@(ResourcesContent)" WorkingDirectory="$(MSBuildProjectDirectory)\ResourcesZip" ZipFileName="Resources.$(Extension)" />
     <Copy SourceFiles="$(MSBuildProjectDirectory)\Resources.$(Extension)" DestinationFolder="package/" />
+   
+    <CreateItem Include="$(MSBuildProjectDirectory)\Providers\HtmlEditorProviders\**\*.*">
+      <Output TaskParameter="Include" ItemName="HtmlEditorContent" />
+    </CreateItem>
+
+    <Zip Files="@(HtmlEditorContent)" WorkingDirectory="$(MSBuildProjectDirectory)\HtmlEditorZip" ZipFileName="HtmlEditor.$(Extension)" />
+    <Copy SourceFiles="$(MSBuildProjectDirectory)\HtmlEditor.$(Extension)" DestinationFolder="package/" />
+
 
     <CreateItem Include="$(MSBuildProjectDirectory)\Package\**\*.*">
       <Output TaskParameter="Include" ItemName="OutputContent" />
     </CreateItem>
     <!-- Create the Install package -->    
     <Zip Files="@(OutputContent)" WorkingDirectory="$(MSBuildProjectDirectory)\Package" ZipFileName="$(PackageName)_$(Version)_Install.$(Extension)" />
+
     <!-- Copy the Install package to the Packages folder -->
     <Copy SourceFiles="$(MSBuildProjectDirectory)\$(PackageName)_$(Version)_Install.$(Extension)" DestinationFolder="install/" />
     
     <RemoveDir Directories ="$(MSBuildProjectDirectory)\Package" />
     <RemoveDir Directories ="$(MSBuildProjectDirectory)\ResourcesZip" />
-
     
     <Copy SourceFiles="$(MSBuildDnnBinPath)\$(AssemblyName).dll" DestinationFolder="$(MSBuildProjectDirectory)\Package\bin"/>
    
@@ -115,6 +128,10 @@
     <Zip Files="@(SourceContent)" WorkingDirectory="$(MSBuildProjectDirectory)\ResourcesZip" ZipFileName="Resources.$(Extension)" />
     <Copy SourceFiles="$(MSBuildProjectDirectory)\Resources.$(Extension)" DestinationFolder="package/" />
 
+
+    <Copy SourceFiles="$(MSBuildProjectDirectory)\HtmlEditor.$(Extension)" DestinationFolder="package/" />
+
+
     <CreateItem Include="$(MSBuildProjectDirectory)\Package\**\*.*">
       <Output TaskParameter="Include" ItemName="OutputSource" />
     </CreateItem>
@@ -126,10 +143,11 @@
     <Delete Files="$(MSBuildProjectDirectory)\$(PackageName)_$(Version)_Source.$(Extension)" />
 
     <Delete Files="$(MSBuildProjectDirectory)\Resources.Zip" />
+    <Delete Files="$(MSBuildProjectDirectory)\HtmlEditor.Zip" />
 
     <RemoveDir Directories ="$(MSBuildProjectDirectory)\Package" />
-
     <RemoveDir Directories ="$(MSBuildProjectDirectory)\ResourcesZip" />
-    
+    <RemoveDir Directories ="$(MSBuildProjectDirectory)\HtmlEditorZip" />
+
   </Target>
 </Project>

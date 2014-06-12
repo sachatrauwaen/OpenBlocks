@@ -17,11 +17,8 @@ using DotNetNuke.Services.Search;
 using System;
 using DotNetNuke.Entities.Modules.Definitions;
 using DotNetNuke.Services.Upgrade;
-using DotNetNuke.Entities.Portals;
-using System.Collections;
-using DotNetNuke.Entities.Tabs;
 
-namespace Satrabel.OpenBlocks.Block
+namespace Satrabel.OpenBlocks.TemplateEditor
 {
 
     /// -----------------------------------------------------------------------------
@@ -139,39 +136,39 @@ namespace Satrabel.OpenBlocks.Block
                 switch (Version)
                 {
                     case "00.00.01":
-                        ModuleDefinitionInfo mDef = ModuleDefinitionController.GetModuleDefinitionByFriendlyName("OpenBlocks");
+
+
+                        ModuleDefinitionInfo mDef = ModuleDefinitionController.GetModuleDefinitionByFriendlyName("OpenTemplateStudio");
 
                         //Add tab to Admin Menu
                         if (mDef != null)
                         {
-                            /*
-                            var hostPage = Upgrade.AddHostPage("Open Blocks",
-                                                            "Open Blocks",
-                                                            "~/Icons/Sigma/Software_16X16_Standard.png",
-                                                            "~/Icons/Sigma/Software_32X32_Standard.png",
+                            var hostPage = Upgrade.AddHostPage("Template Studio",
+                                                            "Open Template Studio",
+                                                            "~/DesktopModules/OpenBlocks/Files_16X16_Standard.png",
+                                                            "~/Icons/Sigma/Files_32X32_Standard.png",
                                                             true);
 
                             //Add module to page
-                            Upgrade.AddModuleToPage(hostPage, mDef.ModuleDefID, "Open Blocks", "~/Icons/Sigma/Software_32X32_Standard.png", true);
-                            */
-                            
-                            AddAdminPages("Blocks",
-                                                 "Manage resuable blocks of content",
-                                                 "~/Icons/Sigma/Software_16X16_Standard.png",
-                                                 "~/Icons/Sigma/Software_32X32_Standard.png",
+                            Upgrade.AddModuleToPage(hostPage, mDef.ModuleDefID, "Open Template Studio", "~/Icons/Sigma/Files_32X32_Standard.png", true);
+
+                            /*
+                            Upgrade.AddAdminPages("File Management",
+                                                 "Manage assets within the portal",
+                                                 "~/Icons/Sigma/Files_16X16_Standard.png",
+                                                 "~/Icons/Sigma/Files_32X32_Standard.png",
                                                  true,
                                                  mDef.ModuleDefID,
-                                                 "Open Blocks",
-                                                 "~/Icons/Sigma/Software_16X16_Standard.png",
+                                                 "File Management",
+                                                 "~/Icons/Sigma/Files_16X16_Standard.png",
                                                  true);
-
-                            //result = hostPage == null ? "hostpage null" : "hostpage created";
+                             */
+                            result = hostPage == null ? "host page null" : "host page created";
                         }
 
-                        
                         break;
                 }
-                return "Success " + result;
+                return "Success : " + result;
             }
             catch (Exception)
             {
@@ -181,35 +178,6 @@ namespace Satrabel.OpenBlocks.Block
         }
 
         #endregion
-
-        public static void AddAdminPages(string tabName, string description, string tabIconFile, string tabIconFileLarge, bool isVisible, int moduleDefId, string moduleTitle, string moduleIconFile, bool inheritPermissions)
-        {
-            var portalController = new PortalController();
-            ArrayList portals = portalController.GetPortals();
-
-            //Add Page to Admin Menu of all configured Portals
-            for (int intPortal = 0; intPortal <= portals.Count - 1; intPortal++)
-            {
-                var portal = (PortalInfo)portals[intPortal];
-
-                //Create New Admin Page (or get existing one)
-                TabInfo newPage = Upgrade.AddAdminPage(portal, tabName, description, tabIconFile, tabIconFileLarge, isVisible);
-
-                //Add Module To Page
-                Upgrade.AddModuleToPage(newPage, moduleDefId, moduleTitle, moduleIconFile, inheritPermissions);
-                var moduleController = new ModuleController();
-
-                if (newPage != null) { 
-                    foreach (var module in moduleController.GetTabModules(newPage.TabID).Values)
-                    {
-                        moduleController.UpdateTabModuleSetting(module.TabModuleID, "hideadminborder", "true");
-                    }
-                }
-
-            }
-        }
-
-
 
     }
 

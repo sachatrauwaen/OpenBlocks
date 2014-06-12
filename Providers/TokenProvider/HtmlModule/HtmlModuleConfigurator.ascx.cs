@@ -15,15 +15,17 @@ namespace Satrabel.OpenBlocks.Token
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            if (!Page.IsPostBack)
+            {
+                ddlModules.Items.AddRange(ConfiguratorUtils.GetModuleList("HTML").ToArray());            
+            }
         }
 
         public override void LoadSettings(Hashtable settings)
-        {
-            ddlModules.Items.AddRange(ConfiguratorUtils.GetModuleList("HTML").ToArray());            
+        {            
             try
             {
-                ddlModules.SelectedValue = (string)settings["HtmlModule_ModuleId"];
+                ddlModules.SelectedValue = (string)settings["ModuleId"];
             }
             catch (Exception)
             {
@@ -32,7 +34,7 @@ namespace Satrabel.OpenBlocks.Token
         public override Hashtable SaveSettings()
         {
             Hashtable settings = new Hashtable();
-            settings.Add("HtmlModule_ModuleId", ddlModules.SelectedValue);
+            settings.Add("ModuleId", ddlModules.SelectedValue);
             return settings;
         }
 

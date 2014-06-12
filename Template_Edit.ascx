@@ -46,7 +46,7 @@
             <dnn:Label ID="lblMode" runat="server" CssClass="dnnForm" Visible="false"></dnn:Label>
             <div style="white-space: nowrap">
                 <div style="display: inline-block; width: 30%">
-                    <asp:Label ID="lblTypeCopy" runat="server" Text="Storage" Visible="false"></asp:Label><br />
+                    <asp:Label ID="lblTypeCopy" runat="server" Text="From Storage" Visible="false"></asp:Label><br />
                     <asp:DropDownList ID="ddlTypeCopy" runat="server" Width="100%" Visible="false" AutoPostBack="True"
                         OnSelectedIndexChanged="ddlTypeCopy_SelectedIndexChanged">
                         <asp:ListItem Value="" resourceKey="selectType"></asp:ListItem>
@@ -56,14 +56,14 @@
                     </asp:DropDownList>
                 </div>
                 <div style="display: inline-block; width: 30%">
-                    <asp:Label ID="lblTemplate" runat="server" Text="Template" Visible="false"></asp:Label><br />
+                    <asp:Label ID="lblTemplate" runat="server" Text="From Template" Visible="false"></asp:Label><br />
                     <asp:DropDownList ID="ddlTemplate" runat="server" Width="100%" AutoPostBack="True"
                         Visible="false" OnSelectedIndexChanged="ddlTemplate_SelectedIndexChanged">
                         <asp:ListItem Value="" resourceKey="selectTemplate"></asp:ListItem>
                     </asp:DropDownList>
                 </div>
                 <div style="display: inline-block; width: 30%">
-                    <asp:Label ID="lblZip" runat="server" Text="Zip file" Visible="false"></asp:Label><br />
+                    <asp:Label ID="lblZip" runat="server" Text="From Zip file" Visible="false"></asp:Label><br />
                     <asp:FileUpload ID="updZip" runat="server" Visible="false" />
                 </div>
             </div>

@@ -15,7 +15,7 @@ namespace Satrabel.OpenBlocks.Token
             int ModuleId = Null.NullInteger;
             if (int.TryParse(parameters["moduleid"], out ModuleId))
             {
-                return GetHtmlText(ModuleId);
+                return HttpUtility.HtmlDecode(GetHtmlText(ModuleId));
             }
 
             return "";

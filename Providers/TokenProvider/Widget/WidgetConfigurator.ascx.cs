@@ -38,31 +38,25 @@ namespace Satrabel.OpenBlocks.Token
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (!Page.IsPostBack)
+            try
             {
-
-                //ddlType.SelectedValue = Request.Cookies["ddlType"].Value.ToString();
-
-                /*
-                if (ddlType.SelectedIndex > 0)
+                if (!Page.IsPostBack)
                 {
-                    TemplateEditorUtils.TemplateDataBind("Widgets", int.Parse(ddlType.SelectedValue), ddlTemplate, PortalId, LocalResourceFile, Server);
-                    if (Request.Cookies["ddlTemplate"] != null)
+                    foreach (var item in DataSourceProvider.GetProviderList())
                     {
-                        string template_value = Request.Cookies["ddlTemplate"].Value.ToString();
-                        var template_item = ddlTemplate.Items.FindByValue(template_value);
-                        if (template_item != null)
-                        {
-                            ddlTemplate.SelectedValue = Request.Cookies["ddlTemplate"].Value.ToString();
-
-                            if (Request.Cookies["lkbRefresh"] != null)
-                            {
-                                //showFile(Request.Cookies["lkbRefresh"].Value.ToString());
-                            }
-                        }
+                        ddlDataSource.Items.Add(new ListItem(item.FriendlyName));
                     }
-                } 
-                 */
+                    foreach (DataSourceConfigurator conf in phConfigurator.Controls)
+                    {
+                        conf.Visible = ddlDataSource.SelectedValue == conf.ID;
+                    }
+                    TemplateEditorUtils.TemplateDataBind("Widgets", ddlTemplate, PortalId, LocalResourceFile, Server);
+                    TemplateEditorUtils.FileDataBind("Widgets", ddlTemplate, ddlFile, PortalId, LocalResourceFile, Server);
+                }
+            }
+            catch (Exception exc) // Module failed to load
+            {
+                Exceptions.ProcessModuleLoadException(this, exc);
             }
         }
 
@@ -76,40 +70,21 @@ namespace Satrabel.OpenBlocks.Token
                     DataSourceToken = conf.getToken();
                     break;
                 }
-
             }
             string TemplateFile = "";
-            
-                TemplateFile =  ddlTemplate.SelectedValue + "/" + ddlFile.SelectedValue;
+            TemplateFile = ddlTemplate.SelectedValue + "/" + ddlFile.SelectedValue;
             return "{{widget templatefile=\"" + TemplateFile + "\" " + DataSourceToken + " }}";
         }
-
-
-
         public override void LoadSettings(Hashtable settings)
         {
             try
             {
-                if (!Page.IsPostBack)
-                {
-                    foreach (var item in DataSourceProvider.GetProviderList())
-                    {
-                        ddlDataSource.Items.Add(new ListItem(item.FriendlyName));
-                    }
-                    //txtField.Text = (string)TabModuleSettings["field"];
-
-                    ddlDataSource.SelectedValue = (string)settings["Widget_DataSourceProvider"];
-
-                    SelectProvider(ddlDataSource.SelectedValue, settings);
-
-
-
-                    TemplateEditorUtils.TemplateDataBind("Widgets", ddlTemplate, PortalId, LocalResourceFile, Server);
-                    ddlTemplate.SelectedValue = (string)settings["Widget_Template"];
-                    TemplateEditorUtils.FileDataBind("Widgets", ddlTemplate, ddlFile, PortalId, LocalResourceFile, Server);
-                    ddlFile.SelectedValue = (string)settings["Widget_File"];
-
-                }
+                ddlDataSource.SelectedValue = (string)settings["Widget_DataSourceProvider"];
+                SelectProvider(ddlDataSource.SelectedValue, settings);
+                TemplateEditorUtils.TemplateDataBind("Widgets", ddlTemplate, PortalId, LocalResourceFile, Server);
+                ddlTemplate.SelectedValue = (string)settings["Widget_Template"];
+                TemplateEditorUtils.FileDataBind("Widgets", ddlTemplate, ddlFile, PortalId, LocalResourceFile, Server);
+                ddlFile.SelectedValue = (string)settings["Widget_File"];
             }
             catch (Exception exc) // Module failed to load
             {
@@ -128,15 +103,12 @@ namespace Satrabel.OpenBlocks.Token
                     settings.Add(set.Key, set.Value);
                 }
             }
-
-            
             settings.Add("Widget_Template", ddlTemplate.SelectedValue);
             settings.Add("Widget_File", ddlFile.SelectedValue);
             settings.Add("Widget_DataSourceProvider", ddlDataSource.SelectedValue);
             //settings.Add("Token", getToken());
             return settings;
         }
-
         private void SelectProvider(string FriendlyName, Hashtable settings)
         {
             foreach (DataSourceConfigurator conf in phConfigurator.Controls)
@@ -148,7 +120,6 @@ namespace Satrabel.OpenBlocks.Token
                 }
             }
         }
-
         protected void ddlTemplate_SelectedIndexChanged(object sender, EventArgs e)
         {
             TemplateEditorUtils.FileDataBind("Widgets", ddlTemplate, ddlFile, PortalId, LocalResourceFile, Server);
@@ -156,9 +127,6 @@ namespace Satrabel.OpenBlocks.Token
         protected void ddlDataSource_SelectedIndexChanged(object sender, EventArgs e)
         {
             SelectProvider(ddlDataSource.SelectedValue, null);
-
         }
-
-
     }
 }

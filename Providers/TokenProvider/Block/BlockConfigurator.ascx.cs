@@ -15,15 +15,18 @@ namespace Satrabel.OpenBlocks.Token
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            if (!Page.IsPostBack)
+            {
+                BlockController bc = new BlockController();
+                var blocks = bc.GetBlocks(PortalId);
+                ddlBlock.DataSource = blocks.Select(b => b.Name).Distinct();
+                ddlBlock.DataBind();
+            }
         }
 
         public override void LoadSettings(Hashtable settings)
         {
-            BlockController bc = new BlockController();
-            var blocks = bc.GetBlocks(PortalId);
-            ddlBlock.DataSource = blocks.Select(b => b.Name).Distinct();
-            ddlBlock.DataBind();
+           
             try
             {
                 ddlBlock.SelectedValue = (string)settings["Block_Name"];
