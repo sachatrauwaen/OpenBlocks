@@ -8,6 +8,7 @@ using DotNetNuke.Entities.Modules;
 using DotNetNuke.Services.Localization;
 using ICSharpCode.SharpZipLib.Zip;
 using System.Threading;
+using DotNetNuke.Entities.Portals;
 
 /// <summary>
 /// Description résumée de TemplateEditorUtils
@@ -23,17 +24,20 @@ public class TemplateEditorUtils
     {
         return GenerateDirectory(ddlModule.SelectedValue, int.Parse(ddlType.SelectedValue), tbxNewTemplate.Text, PortalId, Server);
     }
-
     public static string GenerateDirectory(string Module, int Type, string template, int PortalId, HttpServerUtility Server)
+    {
+        return GenerateDirectory(Module, Type, template, PortalId, Server, false);
+    }
+    public static string GenerateDirectory(string Module, int Type, string template, int PortalId, HttpServerUtility Server, bool CheckDirExist)
     {
         string path = "";
 
         string[] pathLst = GetPathList(Module, Type, PortalId);
+        if (pathLst.Length == 0) return "";
         path = pathLst[0];
         foreach (string item in pathLst)
         {
-
-            if (Directory.Exists(Server.MapPath(item)))
+            if (!CheckDirExist || Directory.Exists(Server.MapPath(item)))
             {
                 path = item + template;
                 break;
@@ -44,11 +48,14 @@ public class TemplateEditorUtils
 
     private static string[] GetPathList(string FolderName, int SelectedType, int PortalId)
     {
+
         string type = "_default";
+        string HomePath = "/Portals/" + type + "/";
         if (SelectedType == 3)
+        {
             type = PortalId.ToString();
-
-
+            HomePath = PortalSettings.Current.HomeDirectory;
+        }
         if (FolderName.StartsWith("Easy"))
         {
             if (SelectedType == 1)
@@ -71,19 +78,12 @@ public class TemplateEditorUtils
         else if (FolderName == "skins" || FolderName == "containers")
         {
             if (SelectedType == 1)
-                return new string[]{
-                    "/DesktopModules/" + FolderName + "/Templates/" + type + "/"
-                };
-            else if (SelectedType == 2)
-                return new string[]{                    
-                   
-                    "/Portals/" + type + "/" + FolderName + "/"
-                };
+                return new string[] { };
             else
-                return new string[]{
-                  
-                    "/Portals/" + type + "/" + FolderName + "/"
+                return new string[]{                    
+                    HomePath + "/" + FolderName + "/"
                 };
+
         }
         else if (FolderName == "RazorModules/RazorHost")
         {
@@ -93,13 +93,20 @@ public class TemplateEditorUtils
                 };
             else if (SelectedType == 2)
                 return new string[]{                    
-                   
-                    "/Portals/" + type + "/" + FolderName + "/Scripts/"
                 };
             else
                 return new string[]{
-                  
-                    "/Portals/" + type + "/" + FolderName + "/Scripts/"
+                };
+        }
+        else if (FolderName == "NBright/NBrightBuy")
+        {
+            if (SelectedType == 1)
+                return new string[]{
+                    "/DesktopModules/" + FolderName + "/Themes/"
+                };
+            else
+                return new string[]{
+                    HomePath + FolderName + "/Themes/"                
                 };
         }
         else
@@ -110,12 +117,9 @@ public class TemplateEditorUtils
                 };
             else
                 return new string[]{
-                    "/Portals/" + type + "/" + FolderName + "/Templates/"                
+                    HomePath + FolderName + "/Templates/"                
                 };
-
         }
-
-
     }
 
     public static void ModuleDataBind(DropDownList ddlModule, int PortalId, string LocalResourceFile, HttpServerUtility Server)
@@ -161,7 +165,7 @@ public class TemplateEditorUtils
             ddlTemplate.Items.Clear();
             ddlTemplate.Items.Add(new ListItem(Localization.GetString("selectTemplate", LocalResourceFile), ""));
             string path = TemplateEditorUtils.GenerateDirectory(Module, Type, ddlTemplate.SelectedValue, PortalId, Server);
-            if (Directory.Exists(Server.MapPath(path)))
+            if (!string.IsNullOrEmpty(path) && Directory.Exists(Server.MapPath(path)))
             {
                 var dryLst = Directory.GetDirectories(Server.MapPath(path));
 
@@ -187,7 +191,7 @@ public class TemplateEditorUtils
         for (int type = 1; type < 4; type++)
         {
             string path = TemplateEditorUtils.GenerateDirectory(Module, type, "", PortalId, Server);
-            if (Directory.Exists(Server.MapPath(path)))
+            if (!string.IsNullOrEmpty(path) && Directory.Exists(Server.MapPath(path)))
             {
                 var dryLst = Directory.GetDirectories(Server.MapPath(path));
                 if (dryLst.Count() > 0 && Directory.GetFiles(Server.MapPath(path)).Count() == 0)
@@ -200,10 +204,14 @@ public class TemplateEditorUtils
                 }
                 else
                 {
-                    ddlTemplate.Items.Add(new ListItem(GetTypes()[type] , path));
+                    ddlTemplate.Items.Add(new ListItem(GetTypes()[type], path));
 
                 }
             }
+        }
+        if (ddlTemplate.Items.Count == 2) {
+            ddlTemplate.Items.RemoveAt(0);
+            ddlTemplate.SelectedIndex = 0;
         }
     }
     public static void FileDataBind(string Module, DropDownList ddlTemplate, DropDownList ddlFile, int PortalId, string LocalResourceFile, HttpServerUtility Server)
@@ -244,7 +252,7 @@ public class TemplateEditorUtils
     public static string ReverseMapPath(string path)
     {
         string appPath = HttpContext.Current.Server.MapPath("~");
-        string res = string.Format("~/{0}", path.Replace(appPath, "").Replace("\\", "/"));
+        string res = string.Format("/{0}", path.Replace(appPath, "").Replace("\\", "/"));
         return res;
     }
 
@@ -346,6 +354,44 @@ public class TemplateEditorUtils
             }
         }
         return dirDeleted;
+    }
+
+    public static void DirectoryCopy(string sourceDirName, string destDirName, bool copySubDirs, bool overwriteFile)
+    {
+        // Get the subdirectories for the specified directory.
+        DirectoryInfo dir = new DirectoryInfo(sourceDirName);
+        DirectoryInfo[] dirs = dir.GetDirectories();
+
+        if (!dir.Exists)
+        {
+            throw new DirectoryNotFoundException(
+                "Source directory does not exist or could not be found: "
+                + sourceDirName);
+        }
+
+        // If the destination directory doesn't exist, create it. 
+        if (!Directory.Exists(destDirName))
+        {
+            Directory.CreateDirectory(destDirName);
+        }
+
+        // Get the files in the directory and copy them to the new location.
+        FileInfo[] files = dir.GetFiles();
+        foreach (FileInfo file in files)
+        {
+            string temppath = Path.Combine(destDirName, file.Name);
+            file.CopyTo(temppath, overwriteFile);
+        }
+
+        // If copying subdirectories, copy them and their contents to new location. 
+        if (copySubDirs)
+        {
+            foreach (DirectoryInfo subdir in dirs)
+            {
+                string temppath = Path.Combine(destDirName, subdir.Name);
+                DirectoryCopy(subdir.FullName, temppath, copySubDirs, overwriteFile);
+            }
+        }
     }
 
 }

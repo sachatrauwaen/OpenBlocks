@@ -28,12 +28,10 @@ namespace Satrabel.OpenBlocks.TemplateEditor
     [SupportedModules("OpenTemplateStudio")]
     public class TemplateEditorController : DnnApiController
     {
-
         [HttpGet]
         [AllowAnonymous]
         public HttpResponseMessage MyResponse()
         {
-
             return Request.CreateResponse(HttpStatusCode.OK, "Hello World!");
         }
 
@@ -52,8 +50,8 @@ namespace Satrabel.OpenBlocks.TemplateEditor
         [DnnModuleAuthorize(AccessLevel = SecurityAccessLevel.Edit)]
         public HttpResponseMessage OpenFile(OpenFileDTO submitted)
         {
-            string realfilename = HostingEnvironment.MapPath(submitted.Filename);
-            //File.WriteAllText(realfilename, submitted.Content);
+            string realfilename = HostingEnvironment.MapPath(submitted.Filename);            
+            //File.WriteAllText(realfilename, submitted.Content);            
             string Content = File.ReadAllText(realfilename);
             return Request.CreateResponse(HttpStatusCode.OK, Content);
         }
@@ -64,11 +62,12 @@ namespace Satrabel.OpenBlocks.TemplateEditor
         public HttpResponseMessage NewFile(OpenFileDTO submitted)
         {
             string realfilename = HostingEnvironment.MapPath(submitted.Filename);
-            string Content = "Add new file content";
+            string[] Content = new []{"Add new file content"};
             if (Path.GetExtension(realfilename) == ".cshtml") {
-                Content = "@inherits Satrabel.Providers.TemplateEngine.TemplateWebPage";
+                Content = new[] { "@inherits Satrabel.OpenBlocks.TemplateEngine.TemplateWebPage",
+                                  "@ObjectInfo.Print(Model)"  };
             }
-            File.WriteAllText(realfilename, Content);
+            File.WriteAllLines(realfilename, Content);
 
             return Request.CreateResponse(HttpStatusCode.OK, Content);
         }

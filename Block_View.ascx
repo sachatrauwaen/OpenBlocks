@@ -31,6 +31,12 @@
                     <asp:Label ID="lblCulture" runat="server" Text='<%# Scope(Eval("CultureCode")) %>' ></asp:Label>
                 </ItemTemplate>
             </asp:TemplateField>
+             <asp:TemplateField HeaderText="Token">
+                <HeaderStyle HorizontalAlign="Left" />
+                <ItemTemplate>
+                    <asp:Label ID="lblToken" runat="server" Text='<%# Token(Eval("Name")) %>' ></asp:Label>
+                </ItemTemplate>
+            </asp:TemplateField>
         </Columns>
 
         <HeaderStyle CssClass="dnnGridHeader"></HeaderStyle>

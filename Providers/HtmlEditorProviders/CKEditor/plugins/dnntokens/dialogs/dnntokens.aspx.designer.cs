@@ -7,36 +7,36 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Satrabel.OpenBlocks {
+namespace Satrabel.OpenBlocks.Token {
     
     
-    public partial class Token_View {
+    public partial class DnnTokens {
         
         /// <summary>
-        /// PlaceHolder1 control.
+        /// DialogForm control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.PlaceHolder PlaceHolder1;
+        protected global::System.Web.UI.HtmlControls.HtmlForm DialogForm;
         
         /// <summary>
-        /// txtField control.
+        /// ScriptManager1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtField;
+        protected global::System.Web.UI.ScriptManager ScriptManager1;
         
         /// <summary>
-        /// lContent control.
+        /// TokenSettings control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal lContent;
+        protected global::System.Web.UI.UserControl TokenSettings;
     }
 }

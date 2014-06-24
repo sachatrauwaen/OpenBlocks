@@ -49,7 +49,7 @@ public class ObjectDumper
             if (!typeof(IEnumerable).IsAssignableFrom(objectType))
             {
                 _stack.Push(objectType.FullName);
-                Write("{{{0}}}", objectType.FullName);
+                Write("&lt;{0}&gt;", objectType.FullName);
                 
                 _hashListOfFoundElements.Add(element.GetHashCode());
                 _level++;
@@ -118,7 +118,7 @@ public class ObjectDumper
                     else
                     {
                         var isEnumerable = typeof(IEnumerable).IsAssignableFrom(type);
-                        Write("<b>{0}</b>: {1}", memberInfo.Name, isEnumerable ? "[collection]" : "{ }");
+                        Write("<b>{0}</b>: {1}", memberInfo.Name, isEnumerable ? "[...]" : "{ }");
 
                         var alreadyTouched = !isEnumerable && AlreadyTouched(value);
                         _level++;

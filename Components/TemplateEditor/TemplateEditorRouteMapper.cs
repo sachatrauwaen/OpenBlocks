@@ -19,7 +19,7 @@ namespace Satrabel.OpenBlocks.TemplateEditor
     {
         public void RegisterRoutes(IMapRoute mapRouteManager)
         {
-            mapRouteManager.MapHttpRoute("OpenBlocks", "default", "{controller}/{action}", new[] {"Satrabel.TemplateEditor"});
+            mapRouteManager.MapHttpRoute("OpenBlocks", "default", "{controller}/{action}", new[] {"Satrabel.OpenBlocks.TemplateEditor"});
         }
     }
 } 

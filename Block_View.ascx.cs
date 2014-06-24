@@ -113,6 +113,10 @@ namespace Satrabel.OpenBlocks
             }
             return "";
         }
+        protected string Token(object oName)
+        {            
+            return "{{block name=\""+oName+"\"}}";
+        }
         protected string BlockType(object oBlockType)
         {
             int BlockType = (int)oBlockType;

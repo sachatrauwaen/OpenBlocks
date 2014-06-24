@@ -13,6 +13,10 @@ using System.Web.UI;
 using DotNetNuke.UI.WebControls;
 using System.Web.UI.WebControls;
 using DotNetNuke.Entities.Portals;
+using DotNetNuke.Services.Upgrade;
+using DotNetNuke.Entities.Modules;
+using DotNetNuke.Entities.Modules.Definitions;
+using DotNetNuke.Entities.Tabs;
 
 namespace Satrabel.OpenBlocks.Token
 {
@@ -46,7 +50,7 @@ namespace Satrabel.OpenBlocks.Token
 
         #endregion
 
-
+        private static bool PagesChecked = false;
         public void OnPreRequestHandlerExecute(object sender, EventArgs e)
         {
             try
@@ -91,17 +95,51 @@ namespace Satrabel.OpenBlocks.Token
                     page.Load += Page_Load;
 
 
-                    
+
                     try
                     {
-                            /*
-                            ResponseFilterStream filter = new ResponseFilterStream(app.Response.Filter);
-                            filter.TransformString += filter_TransformString;
-                            app.Response.Filter = filter;
-                            */
+                        /*
+                        ResponseFilterStream filter = new ResponseFilterStream(app.Response.Filter);
+                        filter.TransformString += filter_TransformString;
+                        app.Response.Filter = filter;
+                        */
+                        /*
+                        if (!PagesChecked)
+                        {
+                            var portalController = new PortalController();
+                            var portal = portalController.GetPortal(PortalSettings.Current.PortalId);
+
+                            var tabController = new TabController();
+                            TabInfo adminPage = tabController.GetTab(portal.AdminTabId, portal.PortalID, false);
+
+
+                            
+                            var newPage = Upgrade.AddAdminPage(portal, "Template Studio", "Open Template Studio",
+                                                            "~/Icons/Sigma/Files_16X16_Standard.png",
+                                                            "~/Icons/Sigma/Files_32X32_Standard.png",
+                                                             true);
+                            if (newPage != null) { 
+                            var moduleDefId = GetModuleDefinition("OpenTemplateStudio", "OpenTemplateStudio");
+                            int TabModuleID = Upgrade.AddModuleToPage(newPage, moduleDefId, "Template Studio", "~/Icons/Sigma/Files_16X16_Standard.png", true);
+                            if (TabModuleID > 0)
+                            {
+
+                                var moduleController = new ModuleController();
+
+                                foreach (var module in moduleController.GetTabModules(newPage.TabID).Values)
+                                {
+                                    moduleController.UpdateTabModuleSetting(module.TabModuleID, "hideadminborder", "true");
+                                }
+
+
+                            }
+
+                            }
+                        }
+                        */
                     }
                     catch { }
-
+                    PagesChecked = true;
                     
                 }
             }
@@ -120,6 +158,27 @@ namespace Satrabel.OpenBlocks.Token
                 DnnLog.Error(ex);
             }
         }
+
+        private static int GetModuleDefinition(string desktopModuleName, string moduleDefinitionName)
+        {
+            // get desktop module
+            var desktopModule = DesktopModuleController.GetDesktopModuleByModuleName(desktopModuleName, Null.NullInteger);
+            if (desktopModule == null)
+            {
+                return -1;
+            }
+
+            // get module definition
+            ModuleDefinitionInfo objModuleDefinition = ModuleDefinitionController.GetModuleDefinitionByFriendlyName(moduleDefinitionName, desktopModule.DesktopModuleID);
+            if (objModuleDefinition == null)
+            {
+                return -1;
+            }
+
+
+            return objModuleDefinition.ModuleDefID;
+        }
+
 
         public static string filter_TransformString(string output)
         {

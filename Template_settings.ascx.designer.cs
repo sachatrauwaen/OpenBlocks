@@ -10,33 +10,24 @@
 namespace Satrabel.OpenBlocks {
     
     
-    public partial class Token_View {
+    public partial class Template_settings {
         
         /// <summary>
-        /// PlaceHolder1 control.
+        /// lbCKEditor control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.PlaceHolder PlaceHolder1;
+        protected global::System.Web.UI.WebControls.LinkButton lbCKEditor;
         
         /// <summary>
-        /// txtField control.
+        /// lbBlockPages control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtField;
-        
-        /// <summary>
-        /// lContent control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal lContent;
+        protected global::System.Web.UI.WebControls.LinkButton lbBlockPages;
     }
 }

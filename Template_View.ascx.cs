@@ -11,6 +11,7 @@
 
 using System;
 using System.Linq;
+using System.Xml.Linq;
 using DotNetNuke.Entities.Modules;
 using Telerik.Web.UI;
 using System.IO;
@@ -21,7 +22,7 @@ using DotNetNuke.Security;
 using DotNetNuke.Web.Razor;
 using DotNetNuke.UI.Skins.Controls;
 using System.Web.UI;
-using DotNetNuke.UI.Utilities;
+//using DotNetNuke.UI.Utilities;
 using ICSharpCode.SharpZipLib.Zip;
 using System.Net;
 using System.Threading;
@@ -30,6 +31,10 @@ using System.Collections.Generic;
 using Satrabel.OpenBlocks.Token;
 using Satrabel.OpenBlocks.DataSource;
 using DotNetNuke.Framework;
+using System.Xml;
+using DotNetNuke.Common;
+
+
 
 #endregion
 
@@ -40,18 +45,22 @@ namespace SatraBel.OpenBlocks
 
         public String PreviewUrl;
         public String DataSourceUrl;
+        public String ConfigUrl;
         RadMenuItem customMenuOption = new RadMenuItem("New File");
 
-        
-       
+
+
 
         protected void Page_Load(object sender, EventArgs e)
         {
+
             ServicesFramework.Instance.RequestAjaxAntiForgerySupport();
             lkbDelete.Attributes.Add("onClick", " return confirm('" + Localization.GetString("msgConfirm", LocalResourceFile) + "')");
             lbCreate.NavigateUrl = EditUrl();
             PreviewUrl = ModuleContext.NavigateUrl(TabId, "Preview", true, "mid=" + ModuleId);
             DataSourceUrl = ModuleContext.NavigateUrl(TabId, "DataSource", true, "mid=" + ModuleId);
+            hlSettings.NavigateUrl = EditUrl("Config");
+            hlHome.NavigateUrl = Globals.NavigateURL(PortalSettings.HomeTabId);
             /*
             string SaveDataSource = Page.ClientScript.GetPostBackEventReference(Page, "SaveDataSource");
             Page.ClientScript.RegisterClientScriptBlock(this.GetType(), "SaveDataSource", string.Format("function SaveDataSource(){{ {0} }}\n", SaveDataSource), true);
@@ -89,7 +98,7 @@ namespace SatraBel.OpenBlocks
              */
             if (!Page.IsPostBack)
             {
-                
+                //hlNoSkin.NavigateUrl = Request.RawUrl + "?SkinSrc=%5BG%5DSkins/_default/No%20Skin";
                 TemplateEditorUtils.ModuleDataBind(ddlModule, PortalId, LocalResourceFile, Server);
                 if (Request.Cookies["ddlModule"] != null)
                 {
@@ -98,29 +107,53 @@ namespace SatraBel.OpenBlocks
                     if (module_item != null)
                     {
                         ddlModule.SelectedValue = module_value;
-
                         if (ddlModule.SelectedIndex > 0)
                         {
                             TemplateEditorUtils.TemplateDataBind(ddlModule.SelectedValue, ddlTemplate, PortalId, LocalResourceFile, Server);
-                            if (Request.Cookies["ddlTemplate"] != null)
+                            if (!string.IsNullOrEmpty(ddlTemplate.SelectedValue))
+                            {
+                                //ddlTemplate_SelectedIndexChanged(null, null);
+                            }
+                            else if (Request.Cookies["ddlTemplate"] != null)
                             {
                                 string template_value = Request.Cookies["ddlTemplate"].Value.ToString();
                                 var template_item = ddlTemplate.Items.FindByValue(template_value);
                                 if (template_item != null)
                                 {
                                     ddlTemplate.SelectedValue = Request.Cookies["ddlTemplate"].Value.ToString();
-                                    if (Request.Cookies["lkbRefresh"] != null)
-                                    {
-                                        showFile(Request.Cookies["lkbRefresh"].Value.ToString());
-                                    }
+
+                                }
+                            }
+                            if (!string.IsNullOrEmpty(ddlTemplate.SelectedValue))
+                            {
+                                if (Request.Cookies["lkbRefresh"] != null)
+                                {
+                                    showFile(Request.Cookies["lkbRefresh"].Value.ToString());
                                 }
                             }
                         }
                     }
                 }
+                if (Request.Cookies["cbFullScreen"] != null)
+                {
+                    cbFullScreen.Checked = Boolean.Parse(Request.Cookies["cbFullScreen"].Value.ToString());
+                    //cbFullScreen_CheckedChanged(null, null);
+                    ScopeWrapper.CssClass = cbFullScreen.Checked ? "overlay" : "";
+                }
             }
-            if (ddlTemplate.SelectedIndex > 0)
-           
+            else
+            {
+                string ctrlname = Page.Request.Params["__EVENTTARGET"];
+                if (!string.IsNullOrEmpty(ctrlname))
+                {
+                    var targetControl = this.Page.FindControl(ctrlname);
+                    if (targetControl == ddlModule)
+                    {
+                        TemplateEditorUtils.TemplateDataBind(ddlModule.SelectedValue, ddlTemplate, PortalId, LocalResourceFile, Server);
+                    }
+                }
+            }
+            if (!string.IsNullOrEmpty(ddlTemplate.SelectedValue))
             {
                 //string path = TemplateEditorUtils.GenerateDirectory(ddlModule, ddlType, ddlTemplate, PortalId, Server);
                 string path = ddlTemplate.SelectedValue;
@@ -135,7 +168,7 @@ namespace SatraBel.OpenBlocks
             else
             {
                 ClearTreeView();
-                
+
             }
             customMenuOption.Value = "newfile";
             dfeTree.TreeView.ContextMenus[0].Items.Add(customMenuOption);
@@ -148,14 +181,15 @@ namespace SatraBel.OpenBlocks
             //DotNetNuke.Framework.AJAX.RegisterPostBackControl(btnValid);
             DotNetNuke.Framework.AJAX.RegisterPostBackControl(lkbDelete);
             //DotNetNuke.Framework.AJAX.RegisterPostBackControl(lkbRun);
-            lkbData.Visible = hlDataSource.Visible = hlPreview.Visible = hlWidget.Visible = ddlModule.SelectedValue == "widgets";
+            lkbData.Visible = hlDataSource.Visible = hlPreview.Visible = hlWidget.Visible = (ddlModule.SelectedValue == "widgets" || ddlModule.SelectedValue == "RazorModules/RazorHost");
+
         }
 
         private void RefreshControls()
         {
             btnZip.Visible = false;
             lkbDelete.Visible = false;
-            if (ddlTemplate.SelectedIndex > 0)
+            if (!string.IsNullOrEmpty(ddlTemplate.SelectedValue))
             {
                 btnZip.Visible = true;
                 lkbDelete.Visible = true;
@@ -180,6 +214,7 @@ namespace SatraBel.OpenBlocks
             dfeTree.Configuration.ViewPaths = new string[] { };
             dfeTree.Configuration.DeletePaths = dfeTree.Configuration.ViewPaths;
             dfeTree.Configuration.UploadPaths = dfeTree.Configuration.ViewPaths;
+            //dfeTree.InitialPath = "";
         }
 
         protected void lkbRefresh_Click(object sender, EventArgs e)
@@ -196,20 +231,26 @@ namespace SatraBel.OpenBlocks
                 tbxEdit.Visible = false;
                 //imgEdit.Visible = true;
                 imgEdit.ImageUrl = filename;
+                lFileName.Text = filename;
             }
             else
             {
                 //btnValid.Visible = true;
                 tbxEdit.Visible = true;
                 //imgEdit.Visible = false;
-                tbxEdit.Text = File.ReadAllText(Server.MapPath(filename));
-                SetFileType(filename);
+                string RealFileName = Server.MapPath(filename);
+                if (File.Exists(RealFileName))
+                {
+                    tbxEdit.Text = File.ReadAllText(RealFileName);
+                    SetFileType(filename);
+                    lFileName.Text = filename;
+                }
             }
             lkbDelete.Visible = true;
             //lkbRun.Visible = Path.GetExtension(filename) == ".cshtml";
             //phToolbar.Visible = Path.GetExtension(filename) == ".cshtml";
             //lFileName.Text = tbxEdit.Visible ? filename : "";
-            lFileName.Text = filename;
+
         }
         protected void ddlModule_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -217,10 +258,11 @@ namespace SatraBel.OpenBlocks
             {
                 HttpCookie myCookie = new HttpCookie("lkbRefresh");
                 myCookie.Expires = DateTime.Now.AddDays(-1d);
+                myCookie.Value = "";
                 Response.Cookies.Add(myCookie);
             }
             Response.Cookies["ddlModule"].Value = ddlModule.SelectedValue;
-
+            lFileName.Text = "";
             if (!string.IsNullOrEmpty(tbxEdit.Text))
                 tbxEdit.Text = "";
             tbxEdit.Visible = true;
@@ -228,9 +270,15 @@ namespace SatraBel.OpenBlocks
             //ddlTemplate.Items.Add(new ListItem(Localization.GetString("selectTemplate", LocalResourceFile), ""));
             //ddlType.SelectedIndex = 0;
 
-            TemplateEditorUtils.TemplateDataBind(ddlModule.SelectedValue, ddlTemplate, PortalId, LocalResourceFile, Server);
+            //TemplateEditorUtils.TemplateDataBind(ddlModule.SelectedValue, ddlTemplate, PortalId, LocalResourceFile, Server);
+            // already done in page load
+            if (!string.IsNullOrEmpty(ddlTemplate.SelectedValue))
+            {
+                ddlTemplate_SelectedIndexChanged(null, null);
+            }
 
-            ClearTreeView();
+            //ClearTreeView();
+
             RefreshControls();
         }
         /*
@@ -258,10 +306,11 @@ namespace SatraBel.OpenBlocks
             {
                 HttpCookie myCookie = new HttpCookie("lkbRefresh");
                 myCookie.Expires = DateTime.Now.AddDays(-1d);
+                myCookie.Value = "";
                 Response.Cookies.Add(myCookie);
             }
             Response.Cookies["ddlTemplate"].Value = ddlTemplate.SelectedValue;
-
+            lFileName.Text = "";
             if (!string.IsNullOrEmpty(tbxEdit.Text))
                 tbxEdit.Text = "";
             tbxEdit.Visible = true;
@@ -284,7 +333,7 @@ namespace SatraBel.OpenBlocks
             tbxEdit.Visible = true;
             //string path = Server.MapPath(TemplateEditorUtils.GenerateDirectory(ddlModule, ddlType, ddlTemplate, PortalId, Server));
             string path = ddlTemplate.SelectedValue;
-            TemplateEditorUtils.DeleteDirectory(path);
+            TemplateEditorUtils.DeleteDirectory(Server.MapPath(path));
             lblMsg.Visible = true;
             lblMsg.Text = Localization.GetString("msgSuccessDelete", LocalResourceFile);
             ddlTemplate.Items.Clear();
@@ -409,20 +458,28 @@ namespace SatraBel.OpenBlocks
         protected void btnZip_Click(object sender, EventArgs e)
         {
             //string path = Server.MapPath(TemplateEditorUtils.GenerateDirectory(ddlModule, ddlType, ddlTemplate, PortalId, Server) + "\\");
-            string path = ddlTemplate.SelectedValue;
-            string filename = Server.MapPath(@"~\Portals\0\Templates\" + ddlTemplate.SelectedValue + ".zip");
+            string path = Server.MapPath(ddlTemplate.SelectedValue);
+            string TemplateName = ddlTemplate.SelectedValue.TrimEnd('/');
+            TemplateName = TemplateName.Substring(TemplateName.LastIndexOf("/") + 1);
+            string filename = PortalSettings.HomeDirectoryMapPath + "Templates\\" + TemplateName + ".zip";
             ZipOutputStream zip = new ZipOutputStream(File.Create(filename));
             zip.SetLevel(9);
             TemplateEditorUtils.ZipFolder(path, path, zip);
             zip.Finish();
             zip.Close();
             Response.ContentType = "application/zip";
-            Response.AppendHeader("content-disposition", "attachment; filename=\"" + ddlTemplate.SelectedValue + ".zip\"");
+            Response.AppendHeader("content-disposition", "attachment; filename=\"" + TemplateName + ".zip\"");
             Response.CacheControl = "Private";
             Response.Cache.SetExpires(DateTime.Now.AddMinutes(3));
             Response.TransmitFile(filename);
             Response.Flush();
             Response.End();
+        }
+
+        protected void cbFullScreen_CheckedChanged(object sender, EventArgs e)
+        {
+            ScopeWrapper.CssClass = cbFullScreen.Checked ? "overlay" : "";
+            Response.Cookies["cbFullScreen"].Value = cbFullScreen.Checked.ToString();
         }
 
 

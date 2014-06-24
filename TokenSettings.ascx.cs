@@ -40,13 +40,28 @@ namespace SatraBel.OpenBlocks
                     "</script>";                    
                 }
             }
+            try
+            {
+                if (!Page.IsPostBack)
+                {
+                    foreach (var item in TokenProvider.GetProviderList())
+                    {
+                        ddlTokens.Items.Add(new ListItem(item.FriendlyName));
+                    }
+                    foreach (TokenConfigurator conf in phConfigurator.Controls)
+                    {
+                        conf.Visible = ddlTokens.SelectedValue == conf.ID;
+                    }
+                }
+            }
+            catch (Exception exc) // Module failed to load
+            {
+                Exceptions.ProcessModuleLoadException(this, exc);
+            }
         }
-
-
         protected override void OnInit(EventArgs e)
         {
             base.OnInit(e);
-
             LocalResourceFile = ResXFile;
             //PortalId = 
             foreach (var provider in TokenProvider.GetProviderList())
@@ -78,7 +93,7 @@ namespace SatraBel.OpenBlocks
                     foreach (var item in TokenProvider.GetProviderList())
                     {
                         ddlTokens.Items.Add(new ListItem(item.FriendlyName));
-                    }                  
+                    }
                     ddlTokens.SelectedValue = (string)settings["TokenProvider"];
                     foreach (TokenConfigurator conf in phConfigurator.Controls)
                     {
@@ -94,7 +109,6 @@ namespace SatraBel.OpenBlocks
         }
         public Hashtable SaveSettings()
         {
-
             Hashtable settings = new Hashtable();
             settings.Add("TokenProvider", ddlTokens.SelectedValue);
             foreach (TokenConfigurator conf in phConfigurator.Controls)

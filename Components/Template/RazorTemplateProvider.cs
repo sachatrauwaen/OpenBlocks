@@ -18,34 +18,35 @@ namespace Satrabel.OpenBlocks.TemplateEngine
     public class RazorTemplateProvider : TemplateProvider
     {
         public override string Execute(string virtualfile, object Model)
-        {            
+        {
             try
             {
-                if (!File.Exists(HostingEnvironment.MapPath(virtualfile))){
+                if (!File.Exists(HostingEnvironment.MapPath(virtualfile)))
+                {
                     return String.Format("File {0} don't exist", virtualfile);
                 }
 
-                var engine = new RazorEngine(virtualfile, new ModuleInstanceContext(), null);
-                var WebPage = engine.Webpage as TemplateWebPage;
+                var engine = new MyRazorEngine(virtualfile, new ModuleInstanceContext(), null);
+                var WebPage = engine.DnnWebPage as TemplateWebPage;
                 if ((WebPage != null))
                 {
                     WebPage.Template = new TemplateHelper(WebPage.VirtualPath);
                 }
 
                 var writer = new StringWriter();
-                
+
                 //var model = Reflection.GetProperty(engine.Webpage.GetType(), "Model", engine.Webpage);                
                 //var member = engine.Webpage.GetType().GetMember("Model")[0];
                 //Type t = ((PropertyInfo)member).PropertyType;
                 //model = Reflection.CreateInstance(t);
-               
+
                 if (Model == null)
                 {
                     engine.Render(writer);
                 }
                 else
                 {
-                    Object obj = engine.Webpage;
+                    Object obj = engine.DnnWebPage;
                     PropertyInfo prop = obj.GetType().GetProperty("Model", BindingFlags.Public | BindingFlags.Instance);
                     if (null != prop && prop.CanWrite)
                     {
@@ -53,7 +54,7 @@ namespace Satrabel.OpenBlocks.TemplateEngine
                     }
                     //Reflection.SetProperty(t.DeclaringType, "Model", engine.Webpage, new object[] {Model });
 
-                  
+
                     engine.Render(writer);
                 }
 
@@ -62,12 +63,21 @@ namespace Satrabel.OpenBlocks.TemplateEngine
             catch (Exception ex)
             {
                 return " " + virtualfile + " " + ex.Message + " " + ex.StackTrace;
-            }            
+            }
         }
 
-        public override string[] FileExtensions() {
+        public override string[] FileExtensions()
+        {
             return new string[] { "cshtml", "vbhtml" };
         }
+    }
+
+    class MyRazorEngine : RazorEngine
+    {
+        public MyRazorEngine(string razorScriptFile, ModuleInstanceContext moduleContext, string localResourceFile) :
+            base(razorScriptFile, moduleContext, localResourceFile) { }
+
+        public DotNetNukeWebPage DnnWebPage { get { return Webpage; } }
     }
 
 }

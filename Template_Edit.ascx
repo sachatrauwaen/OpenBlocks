@@ -20,22 +20,21 @@
                 <asp:Label ID="Label1" runat="server" Text="Module"></asp:Label><br />
                 <asp:DropDownList ID="ddlModule" runat="server" DataTextField="FriendlyName" Width="100%"
                     DataValueField="FolderName" AutoPostBack="true" AppendDataBoundItems="true" OnSelectedIndexChanged="ddlModule_SelectedIndexChanged">
-                    <asp:ListItem Value="0" resourceKey="selectModule"></asp:ListItem>
+                    
                 </asp:DropDownList>
             </div>
             <div style="display: inline-block; width: 30%">
                 <asp:Label ID="Label2" runat="server" Text="Storage"></asp:Label><br />
                 <asp:DropDownList ID="ddlType" runat="server" OnSelectedIndexChanged="ddlType_SelectedIndexChanged" Width="100%"
                     AutoPostBack="True">
-                    <asp:ListItem Value="" resourceKey="selectType"></asp:ListItem>
                     <asp:ListItem Value="1" resourceKey="selectSyst"></asp:ListItem>
                     <asp:ListItem Value="2" resourceKey="selectHost"></asp:ListItem>
-                    <asp:ListItem Value="3" resourceKey="selectSite"></asp:ListItem>
+                    <asp:ListItem Value="3" resourceKey="selectSite" Selected="True"></asp:ListItem>
                 </asp:DropDownList>
             </div>
             <div style="display: inline-block; width: 30%">
                 <asp:Label ID="Label3" runat="server" Text="Template"></asp:Label><br />
-                <asp:TextBox ID="tbxNewTemplate" runat="server" placeholder=" Nom du nouveau template" Width="100%"></asp:TextBox>
+                <asp:TextBox ID="tbxNewTemplate" runat="server" placeholder="Name of the new template" Width="100%"></asp:TextBox>
             </div>
         </div>
         <div style="height: 40px">
@@ -47,7 +46,7 @@
             <dnn:Label ID="lblMode" runat="server" CssClass="dnnForm" Visible="false"></dnn:Label>
             <div style="white-space: nowrap">
                 <div style="display: inline-block; width: 30%">
-                    <asp:Label ID="lblTypeCopy" runat="server" Text="Storage" Visible="false"></asp:Label><br />
+                    <asp:Label ID="lblTypeCopy" runat="server" Text="From Storage" Visible="false"></asp:Label><br />
                     <asp:DropDownList ID="ddlTypeCopy" runat="server" Width="100%" Visible="false" AutoPostBack="True"
                         OnSelectedIndexChanged="ddlTypeCopy_SelectedIndexChanged">
                         <asp:ListItem Value="" resourceKey="selectType"></asp:ListItem>
@@ -57,14 +56,14 @@
                     </asp:DropDownList>
                 </div>
                 <div style="display: inline-block; width: 30%">
-                    <asp:Label ID="lblTemplate" runat="server" Text="Template" Visible="false"></asp:Label><br />
+                    <asp:Label ID="lblTemplate" runat="server" Text="From Template" Visible="false"></asp:Label><br />
                     <asp:DropDownList ID="ddlTemplate" runat="server" Width="100%" AutoPostBack="True"
                         Visible="false" OnSelectedIndexChanged="ddlTemplate_SelectedIndexChanged">
                         <asp:ListItem Value="" resourceKey="selectTemplate"></asp:ListItem>
                     </asp:DropDownList>
                 </div>
                 <div style="display: inline-block; width: 30%">
-                    <asp:Label ID="lblZip" runat="server" Text="Zip file" Visible="false"></asp:Label><br />
+                    <asp:Label ID="lblZip" runat="server" Text="From Zip file" Visible="false"></asp:Label><br />
                     <asp:FileUpload ID="updZip" runat="server" Visible="false" />
                 </div>
             </div>
@@ -73,7 +72,7 @@
     <ul class="dnnActions dnnClear">
         <li>
             <asp:Button ID="btnValid" resourcekey="btnValid" runat="server" CssClass="dnnPrimaryAction"
-                OnClick="btnValid_Click" Enabled="false" EnableViewState="False" /></li>
+                OnClick="btnValid_Click"  EnableViewState="False" /></li>
         <li>
             <asp:Button ID="btnCancel" resourcekey="btnCancel" runat="server" CssClass="dnnSecondaryAction"
                 OnClick="btnCancel_Click" CausesValidation="False" /></li>

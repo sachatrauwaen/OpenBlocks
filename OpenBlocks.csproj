@@ -75,6 +75,12 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\bin\DotNetNuke.WebUtility.dll</HintPath>
     </Reference>
+    <Reference Include="ImageResizer">
+      <HintPath>..\..\packages\ImageResizer.3.4.3\lib\ImageResizer.dll</HintPath>
+    </Reference>
+    <Reference Include="ImageResizer.Mvc">
+      <HintPath>..\..\packages\ImageResizer.Mvc.3.4.3\lib\ImageResizer.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="SharpZipLib, Version=0.81.0.1407, Culture=neutral">
       <SpecificVersion>False</SpecificVersion>
@@ -112,6 +118,10 @@
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.Xml.Linq" />
+    <Reference Include="Telerik.Web.UI, Version=2013.1.403.40, Culture=neutral, PublicKeyToken=121fae78165ba3d4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\Telerik.Web.UI.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Components\Block\FeatureController.cs" />
@@ -122,9 +132,11 @@
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Components\DataSource\DataSourceProvider.cs" />
+    <Compile Include="Components\DataSource\DataSourceUtils.cs" />
     <Compile Include="Components\DataSource\DnnDataSourceProvider.cs" />
     <Compile Include="Components\DataSource\RssDataSourceProvider.cs" />
     <Compile Include="Components\DataSource\HtmlModuleDataSourceProvider.cs" />
+    <Compile Include="Components\TemplateEditor\FeatureController.cs" />
     <Compile Include="Components\TemplateEditor\TemplateEditorController.cs" />
     <Compile Include="Components\TemplateEditor\TemplateEditorRouteMapper.cs" />
     <Compile Include="Components\TemplateEditor\TemplateEditorUtils.cs" />
@@ -155,6 +167,13 @@
     <Compile Include="Providers\DataSourceProvider\RssDataSourceProvider\RssConfigurator.ascx.designer.cs">
       <DependentUpon>RssConfigurator.ascx</DependentUpon>
     </Compile>
+    <Compile Include="Providers\HtmlEditorProviders\CKEditor\plugins\dnntokens\dialogs\dnntokens.aspx.cs">
+      <DependentUpon>dnntokens.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Providers\HtmlEditorProviders\CKEditor\plugins\dnntokens\dialogs\dnntokens.aspx.designer.cs">
+      <DependentUpon>dnntokens.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Providers\TokenProvider\Block\BlockConfigurator.ascx.cs">
       <DependentUpon>BlockConfigurator.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -175,6 +194,13 @@
     </Compile>
     <Compile Include="Providers\TokenProvider\Widget\WidgetConfigurator.ascx.designer.cs">
       <DependentUpon>WidgetConfigurator.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Template_settings.ascx.cs">
+      <DependentUpon>Template_settings.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Template_settings.ascx.designer.cs">
+      <DependentUpon>Template_settings.ascx</DependentUpon>
     </Compile>
     <Compile Include="TokenSettings.ascx.cs">
       <DependentUpon>TokenSettings.ascx</DependentUpon>
@@ -255,7 +281,11 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Images\block.png" />
+    <Content Include="Images\Home-32.png" />
+    <Content Include="Images\settings_16X16.png" />
+    <Content Include="Images\settings_32X32.png" />
+    <Content Include="Images\Template.png" />
+    <Content Include="Images\Block.png" />
     <Content Include="js\codemirror-dnn\addon\hint\dnn-templates.js" />
     <Content Include="js\codemirror-extension\addon\execute\remoting-execute.js" />
     <Content Include="js\codemirror-extension\addon\fold\folding-eclipse.css" />
@@ -573,9 +603,14 @@
     <Content Include="Documentation\Documentation.html" />
     <Content Include="Block_Edit.ascx" />
     <Content Include="Providers\DataSourceProvider\RssDataSourceProvider\RssConfigurator.ascx" />
+    <Content Include="Providers\HtmlEditorProviders\CKEditor\plugins\dnntokens\dialogs\dnntokens.aspx" />
+    <Content Include="Providers\HtmlEditorProviders\CKEditor\plugins\dnntokens\icon.gif" />
+    <Content Include="Providers\HtmlEditorProviders\CKEditor\plugins\dnntokens\lang\en.js" />
+    <Content Include="Providers\HtmlEditorProviders\CKEditor\plugins\dnntokens\plugin.js" />
     <Content Include="Providers\TokenProvider\Block\BlockConfigurator.ascx" />
     <Content Include="Providers\TokenProvider\HtmlModule\HtmlModuleConfigurator.ascx" />
     <Content Include="Providers\TokenProvider\Widget\WidgetConfigurator.ascx" />
+    <Content Include="Template_settings.ascx" />
     <Content Include="TokenSettings.ascx" />
     <Content Include="Token_Settings.ascx" />
     <Content Include="Template_Edit.ascx" />
@@ -633,6 +668,20 @@
   <ItemGroup>
     <Content Include="App_LocalResources\Token_Settings.ascx.resx" />
     <Content Include="App_LocalResources\Token_View.ascx.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_LocalResources\Template_Settings.ascx.resx" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

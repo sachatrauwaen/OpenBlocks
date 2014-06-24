@@ -3,8 +3,6 @@
 <%@ Register TagPrefix="dnn" Namespace="DotNetNuke.Web.UI.WebControls" Assembly="DotNetNuke.Web" %>
 <%@ Register TagPrefix="dnn" Namespace="DotNetNuke.Web.Client.ClientResourceManagement" Assembly="DotNetNuke.Web.Client" %>
 
-
-
 <%-- Custom CSS Registration --%>
 <dnn:DnnCssInclude ID="DnnCssInclude3" runat="server" FilePath="~/DesktopModules/OpenBlocks/js/CodeMirror/addon/display/fullscreen.css" />
 <dnn:DnnCssInclude ID="DnnCssInclude1" runat="server" FilePath="~/DesktopModules/OpenBlocks/js/CodeMirror/lib/codemirror.css" />
@@ -54,10 +52,11 @@
     Priority="104" />
 
 
-<asp:Panel ID="ScopeWrapper" runat="server">
+<asp:Panel ID="ScopeWrapper" runat="server" CssClass="">
     <div class="dnnForm" id="templateEditor">
         <fieldset>
             <div class="dnnFormItem" style="width: 100%;">
+                 
                 <div style="display: inline-block">
                     <asp:Label ID="lblModule" runat="server" Text="Module"></asp:Label><br />
                     <asp:DropDownList ID="ddlModule" runat="server" DataTextField="FriendlyName"
@@ -74,15 +73,31 @@
                         <asp:ListItem Value="" resourceKey="selectTemplate"></asp:ListItem>
                     </asp:DropDownList>
                 </div>
+                <div style="display: inline-block">
+                    <asp:CheckBox ID="cbFullScreen" runat="server" Text="Full Responsive" ClientIDMode="Static" OnCheckedChanged="cbFullScreen_CheckedChanged" AutoPostBack="true" />
+                </div>
+                <div style="display: inline-block;float:right;padding-top:25px;padding-left:0px;">
+                    <asp:HyperLink ID="hlSettings" runat="server" ImageUrl="~/DesktopModules/OpenBlocks/Images/settings_32x32.png" ToolTip="Settings" />
+                </div>
+               <div style="display: inline-block;float:right;padding-top:25px;padding-left:0px;">
+                    <asp:HyperLink ID="hlHelp" runat="server" ImageUrl="~/DesktopModules/OpenBlocks/Images/help-32.png" ToolTip="Help" NavigateUrl="https://openblocks.codeplex.com/documentation" Target="_blank" />
+                </div>
+                <div style="display: inline-block;float:right;padding-top:23px;padding-left:10px;">
+                    <asp:HyperLink ID="hlHome" runat="server" ImageUrl="~/DesktopModules/OpenBlocks/Images/Home-32.png" ToolTip="Home page" />
+                </div>
+                 <div style="display: inline-block;float:right;padding-top:30px;">
+                    <span style="font-size:30px;font-weight:bold">Template Studio</span>
+                </div>
             </div>
-            <div>
+            <div class="editorContainer">
                 <div class="col1">
-                    <dnn:DnnFileExplorer runat="server" ID="dfeTree" ExplorerMode="FileTree" Width="231px" Configuration-MaxUploadFileSize="10000000"
-                        RenderMode="Classic" EnableCopy="True" EnableOpenFile="false" OnClientFileOpen="OnClientItemSelected">
+                    <dnn:DnnFileExplorer runat="server" ID="dfeTree" ExplorerMode="FileTree" Width="99%" Configuration-MaxUploadFileSize="10000000"
+                        RenderMode="Classic" EnableCopy="True" EnableOpenFile="false" OnClientFileOpen="OnClientItemSelected"  
+                        OnClientLoad="OnClientLoad" Height="100%" >
                     </dnn:DnnFileExplorer>
                 </div>
                 <div class="col2">
-                    <div class="dnnFormItem" style="background-color: #aaa; color: #fff">
+                    <div class="dnnFormItem" style="background-color: #aaa; color: #fff;border: 1px solid #aaa;height:18px">
                         <asp:Label ID="lFileName" runat="server"></asp:Label>
                     </div>
                     <div class="dnnFormItem" id="divEditor">
@@ -93,15 +108,10 @@
                     </div>
                     <div class="dnnFormItem" style="height: 482px; overflow: auto; width: 100%; display: none" id="divRun">
                     </div>
-
-                   
-
                 </div>
                 <div class="clear">
                 </div>
             </div>
-
-
         </fieldset>
         <ul class="dnnActions dnnClear">
             <li>
@@ -134,11 +144,18 @@
                 <li>
                     <asp:HyperLink ID="hlWidget" runat="server" resourcekey="hlWidget" CssClass="dnnSecondaryAction" EnableViewState="False" />
                 </li>
+                 <li>
+                    <div style="border-left: 1px solid #000; padding-right: 5px; margin-left: 5px; height: 30px;"></div>
+                </li>
+                 <li style="float:right;padding-top:10px;">
+                    F11 : Fullscreen | CTRL-S : Save | CTRL-SPACE : autocomplete
+                </li>
+                 <li>
+              
+            </li>
             </asp:PlaceHolder>
         </ul>
-        <div>
-            F11 : Fullscreen | CTRL-S : Save | CTRL-SPACE : code autocomplete
-        </div>
+        
     </div>
 </asp:Panel>
 <asp:Label ID="lblMsg" runat="server" Style="width: 25%; text-align: center" CssClass="dnnFormMessage dnnFormSuccess"
@@ -265,7 +282,7 @@
         var pathToItem = args.get_node().get_attributes().getAttribute('Path');
         if (menuItemValue == "newfile") {
             //var dirPath = oExplorer.get_currentDirectory();
-            var filename = prompt("File Name", "newfile.htm");
+            var filename = prompt("File Name", "newfile.cshtml");
             if (filename != "" && filename != null) {
                 moduleService.newFile(pathToItem + '/' + filename);
             }
@@ -283,11 +300,11 @@
     }
 
     function EndRequestHandler(sender, args) {
-        //InitCodeMirror();
+       
     }
 
     function InitRequestHandler(s, e) {
-        //cm.save();
+       
     }
 </script>
 
@@ -297,60 +314,53 @@
     var moduleService;
 
     $(document).ready(function () {
-
         var moduleScope = $('#<%=ScopeWrapper.ClientID %>'),
-    self = moduleScope,
-    sf = $.ServicesFramework(<%=ModuleId %>);
-
+        self = moduleScope,
+        sf = $.ServicesFramework(<%=ModuleId %>);
         moduleService = moduleScope;
-
+        // Save button
         $("#<%= lkbSave.ClientID %>", moduleScope).click(function () {
             var filename = $("#<%= lFileName.ClientID %>", moduleScope).html();
-            
-                self.updateFile();
-            
+            self.updateFile();
             return false;
         });
-
+        // DataSource button
         $("#<%= hlDataSource.ClientID %>", moduleScope).click(function () {
             var DataSourceUrl = "<%= DataSourceUrl %>";
-             var filename = $("#<%= lFileName.ClientID %>", moduleScope).html();
-             dnnModal.show(DataSourceUrl + "&template=" + escape(filename) , false, 550, 950, false);
+            var filename = $("#<%= lFileName.ClientID %>", moduleScope).html();
+            if(filename != "")
+                dnnModal.show(DataSourceUrl + "&template=" + escape(filename) , false, 550, 950, true);
              return false;
          });
-
+        // Data Button
         $("#<%= lkbData.ClientID %>", moduleScope).click(function () {
             var PreviewUrl = "<%= PreviewUrl %>";
             var filename = $("#<%= lFileName.ClientID %>", moduleScope).html();
-            dnnModal.show(PreviewUrl + "&template=" + escape(filename) + "&mode=data", false, 550, 950, false);
+            if (filename != "")
+                dnnModal.show(PreviewUrl + "&template=" + escape(filename) + "&mode=data", false, 550, 950, false);
             return false;
         });
-
-
+        // Widget button
         $("#<%= hlWidget.ClientID %>", moduleScope).click(function () {
             //self.widgetFile();
             var PreviewUrl = "<%= PreviewUrl %>";
             var filename = $("#<%= lFileName.ClientID %>", moduleScope).html();
-            dnnModal.show(PreviewUrl + "&template=" + escape(filename) + "&mode=widget", false, 550, 950, false);
+            if (filename != "")
+                dnnModal.show(PreviewUrl + "&template=" + escape(filename) + "&mode=widget", false, 550, 950, false);
             return false;
         });
-
-
+        // Preview button
         $("#<%= hlPreview.ClientID %>", moduleScope).click(function () {
             var PreviewUrl = "<%= PreviewUrl %>";
             var filename = $("#<%= lFileName.ClientID %>", moduleScope).html();
-            dnnModal.show(PreviewUrl + "&template=" + escape(filename), false, 550, 950, false);
+            if (filename != "")
+                dnnModal.show(PreviewUrl + "&template=" + escape(filename), false, 550, 950, false);
             return false;
         });
-
-
-
+        // CTRL-S Save
         document.addEventListener("keydown", function (e) {
             if (e.keyCode == 83 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)) {
                 e.preventDefault();
-
-                //var SplitMode =  $("#divEditor").is(":visible") && $("#divRun").is(":visible");
-
                 if (SplitMode) {
                     self.runFile();
                 }
@@ -359,17 +369,17 @@
                 }
             }
         }, false);
-
+        // Auto save
         setInterval(function () {
             if (cmchanged) {
                 self.updateFile();
             }
         }, 10 * 1000);
-
+        // New file
         self.newFile = function (filename) {
             var postData = { Filename: filename };
             var action = "NewFile";
-
+            $("#<%= lFileName.ClientID %>", moduleScope).html("");
             $.ajax({
                 type: "POST",
                 url: sf.getServiceRoot('OpenBlocks') + "TemplateEditor/" + action,
@@ -381,9 +391,8 @@
                     cm.setValue(data);
                     cmchanged = false;
                     notify('File ' + filename + ' created !', 'succes');
-                    //displayMessage('File '+ filename +' open !', 'information');
                     $("#<%= lFileName.ClientID %>", moduleScope).html(filename);
-                    document.cookie = "lkbRefresh=" + filename;
+                    document.cookie = "lkbRefresh=" + filename + ";path=/";
                     var oExplorer = $find("<%= dfeTree.ClientID %>");
                     oExplorer.refresh();
                 }
@@ -391,16 +400,14 @@
                 notify("Uh-oh, something broke : " + status, 'error');
             });
         };
-
+        // Open file
         self.openFile = function (sourceFile) {
-
             if (sourceFile == undefined) {
                 sourceFile = $("#<%= lFileName.ClientID %>", moduleScope).html();
             }
-
+            $("#<%= lFileName.ClientID %>", moduleScope).html("");
             var postData = { Filename: sourceFile };
             var action = "OpenFile";
-
             $.ajax({
                 type: "POST",
                 url: sf.getServiceRoot('OpenBlocks') + "TemplateEditor/" + action,
@@ -408,32 +415,24 @@
                 beforeSend: sf.setModuleHeaders
             }).done(function (data) {
                 if (data !== undefined && data != null) {
-
-
-
                     cm.setOption('mode', mimeType(sourceFile));
                     cm.setValue(data);
-
                     cmchanged = false;
                     notify('File ' + sourceFile + ' open !', 'information');
-                    //displayMessage('File '+ sourceFile +' open !', 'information');
                     $("#<%= lFileName.ClientID %>", moduleScope).html(sourceFile);
-                    document.cookie = "lkbRefresh=" + sourceFile;
+                    document.cookie = "lkbRefresh=" + sourceFile+";path=/";
                 }
             }).fail(function (xhr, result, status) {
                 notify("Uh-oh, something broke : " + status, 'error');
             });
         };
-
+        // winget - NOT USED
         self.widgetFile = function (sourceFile) {
-
             if (sourceFile == undefined) {
                 sourceFile = $("#<%= lFileName.ClientID %>", moduleScope).html();
-        }
-
+            }
             var postData = { Filename: sourceFile };
             var action = "WidgetFile";
-
             $.ajax({
                 type: "POST",
                 url: sf.getServiceRoot('OpenBlocks') + "TemplateEditor/" + action,
@@ -454,13 +453,16 @@
                 notify("Uh-oh, something broke : " + status, 'error');
             });
         };
-
+        // Save file
         self.updateFile = function () {
-            var postData = { Filename: $("#<%= lFileName.ClientID %>", moduleScope).html(), Content: cm.getValue() };
+            var sourceFile = $("#<%= lFileName.ClientID %>", moduleScope).html();
+            if (sourceFile == "") {
+                otify('No file to save', 'error');
+                return;
+            }
+            var postData = { Filename: sourceFile, Content: cm.getValue() };
             var action = "UpdateFile";
-
             notify('File save ...', 'information');
-
             $.ajax({
                 type: "POST",
                 url: sf.getServiceRoot('OpenBlocks') + "TemplateEditor/" + action,
@@ -469,25 +471,17 @@
             }).done(function (data) {
                 if (data !== undefined && data != null) {
                     cmchanged = false;
-                    //alert(data);
-                    //self.data = data;
-                    //self.displayData();
                     notify('File saved !', 'success');
                 }
-
-
             }).fail(function (xhr, result, status) {
                 notify("Uh-oh, something broke : " + status, 'error');
-                //alert("Uh-oh, something broke: " + status);
             });
         };
-
+        // run file - NOT USED
         self.runFile = function () {
             var postData = { Filename: $("#<%= lFileName.ClientID %>", moduleScope).html(), Content: cm.getValue() };
             var action = "RunFile";
-
             notify('File save ...', 'information');
-
             $.ajax({
                 type: "POST",
                 url: sf.getServiceRoot('OpenBlocks') + "TemplateEditor/" + action,
@@ -496,33 +490,23 @@
             }).done(function (data) {
                 if (data !== undefined && data != null) {
                     cmchanged = false;
-                    //alert(data);
-                    //self.data = data;
-                    //self.displayData();
                     if (!SplitMode) {
                         $("#divEditor").hide();
                     }
                     $('<iframe id="someId"/>').appendTo('#divRun');
                     $('#someId').contents().find('body').append(data);
-                    //$("#divRun").html(data);
                     $("#divRun").show();
-
                     notify('File saved & Run !', 'success');
                 }
-
-
             }).fail(function (xhr, result, status) {
                 notify("Uh-oh, something broke : " + status, 'error');
-                //alert("Uh-oh, something broke: " + status);
             });
         };
-
+        // Data file - NOT USED
         self.dataFile = function () {
             var postData = { Filename: $("#<%= lFileName.ClientID %>", moduleScope).html(), Content: cm.getValue() };
             var action = "DataFile";
-
             notify('File save ...', 'information');
-
             $.ajax({
                 type: "POST",
                 url: sf.getServiceRoot('OpenBlocks') + "TemplateEditor/" + action,
@@ -531,23 +515,16 @@
             }).done(function (data) {
                 if (data !== undefined && data != null) {
                     cmchanged = false;
-                    //alert(data);
-                    //self.data = data;
-                    //self.displayData();
                     $("#divEditor").hide();
                     $("#divRun").html(data);
                     $("#divRun").show();
 
                     notify('File saved & show data !', 'success');
                 }
-
-
             }).fail(function (xhr, result, status) {
                 notify("Uh-oh, something broke : " + status, 'error');
-                //alert("Uh-oh, something broke: " + status);
             });
         };
-
     });
 </script>
 <script type="text/javascript">
@@ -569,26 +546,21 @@
             markup = '<div id="notification" class="information"><span>Hello!</span><a class="close" href="#">x</a></div>';
             $('body').append(markup);
         }
-
         // elements
         $notification = $('#notification');
         $notificationSpan = $('#notification span');
         $notificationClose = $('#notification a.close');
-
         // set the message
         $notificationSpan.text(message);
-
         // setup click event
         $notificationClose.click(function (e) {
             e.preventDefault();
             $notification.css('top', '-50px');
         });
-
         // for ie6, scroll to the top first
         if ($.browser.msie && $.browser.version < 7) {
             $('html').scrollTop(0);
         }
-
         // hide old notification, then show the new notification
         $notification.css('top', '-50px').stop().removeClass().addClass(type).animate({
             top: 0
@@ -623,5 +595,47 @@
     }
     function endsWith(str, suffix) {
         return str.indexOf(suffix, str.length - suffix.length) !== -1;
+    }
+    $(document).ready(function () {
+        updateContainer();
+        $(window).resize(function () {
+            updateContainer();
+        });
+    });
+    function updateContainer() {
+        var containerHeight = $(window).height();
+
+        $('.editorContainer').height(containerHeight - $('.editorContainer').offset().top -110 );
+        //$('.editorContainer').height(containerHeight - 250);
+        $('#templateEditor .CodeMirror').height($('.editorContainer .col1').height() - 18);
+        ResizeExplorer();
+        cm.refresh();
+    }
+    function OnClientLoad(sender, args) {
+       
+        setTimeout(function () { ResizeExplorer(); }, 0);
+    }
+    var resized = false;
+    function ResizeExplorer() { // The name of the div the RadFileExplorer is in: 
+        var height = $(".col1").height() - 20; 
+        var width = ($(".col1").width()) -5;
+        // The name of the RadFileExplorer goes here 
+        var explorer = $find("<%= dfeTree.ClientID %>");
+        var domSplitter = $("div[ID$='splitter']").attr("id");  
+        if (explorer) { 
+            resized = true; 
+            //var grid = explorer.get_grid(); 
+            var div = explorer.get_element(); 
+            var toolbar = explorer.get_toolbar();  
+            var splitter = $find(domSplitter); 
+            //resize explorer container div 
+            //div.style.height = height + "px"; 
+            //div.style.width = width + "px"; 
+            //div.style.border = "0px";  
+            //resize the splitter  
+            splitter.resize(width, height - toolbar.get_element().offsetHeight);   
+            //resize the grid height  
+            //grid.get_element().style.height = (height - toolbar.get_element().offsetHeight) + "px"; grid.repaint();
+        }
     }
 </script>
