@@ -1,6 +1,6 @@
 <dotnetnuke type="Package" version="5.0">  
   <packages>
-    <package name="OpenBlocks" type="Module" version="00.00.01">
+    <package name="OpenBlocks" type="Module" version="00.01.00">
       <friendlyName>OpenBlocks</friendlyName>
       <description>OpenBlocks module</description>
       <iconFile>DesktopModules\OpenBlocks\Images\block.png</iconFile>
@@ -13,7 +13,7 @@
       <license src="License.txt"></license>
       <releaseNotes src="ReleaseNotes.txt"></releaseNotes>
       <dependencies>
-        <dependency type="CoreVersion">07.00.02</dependency>
+        <dependency type="CoreVersion">07.00.06</dependency>
       </dependencies>      
       <components>
         <component type="Script">
@@ -212,7 +212,7 @@
       </components>
     </package>
 
-    <package name="OpenTemplateStudio" type="Module" version="00.00.01">
+    <package name="OpenTemplateStudio" type="Module" version="00.01.00">
       <friendlyName>OpenTemplateStudio</friendlyName>
       <description>Template Studio module</description>
       <iconFile>DesktopModules\OpenBlocks\Images\Template.png</iconFile>
@@ -225,7 +225,7 @@
       <license src="License.txt"></license>
       <releaseNotes src="ReleaseNotes.txt"></releaseNotes>
       <dependencies>
-        <dependency type="CoreVersion">07.00.02</dependency>
+        <dependency type="CoreVersion">07.00.06</dependency>
       </dependencies>
       <components>
         <component type="Module">
@@ -311,7 +311,7 @@
       </components>
     </package>
 
-    <package name="OpenToken" type="Module" version="00.00.01">
+    <package name="OpenToken" type="Module" version="00.01.00">
       <friendlyName>OpenToken</friendlyName>
       <description>Token module</description>
       <iconFile>DesktopModules\OpenBlocks\Images\block.png</iconFile>
@@ -324,7 +324,7 @@
       <license src="License.txt"></license>
       <releaseNotes src="ReleaseNotes.txt"></releaseNotes>
       <dependencies>
-        <dependency type="CoreVersion">07.00.02</dependency>
+        <dependency type="CoreVersion">07.00.06</dependency>
       </dependencies>
       <components>
 

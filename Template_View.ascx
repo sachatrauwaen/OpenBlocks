@@ -76,9 +76,11 @@
                 <div style="display: inline-block">
                     <asp:CheckBox ID="cbFullScreen" runat="server" Text="Full Responsive" ClientIDMode="Static" OnCheckedChanged="cbFullScreen_CheckedChanged" AutoPostBack="true" />
                 </div>
-               
-                <div style="display: inline-block;float:right;padding-top:25px;padding-left:10px;">
+                <div style="display: inline-block;float:right;padding-top:25px;padding-left:0px;">
                     <asp:HyperLink ID="hlSettings" runat="server" ImageUrl="~/DesktopModules/OpenBlocks/Images/settings_32x32.png" ToolTip="Settings" />
+                </div>
+               <div style="display: inline-block;float:right;padding-top:25px;padding-left:0px;">
+                    <asp:HyperLink ID="hlHelp" runat="server" ImageUrl="~/DesktopModules/OpenBlocks/Images/help-32.png" ToolTip="Help" NavigateUrl="https://openblocks.codeplex.com/documentation" Target="_blank" />
                 </div>
                 <div style="display: inline-block;float:right;padding-top:23px;padding-left:10px;">
                     <asp:HyperLink ID="hlHome" runat="server" ImageUrl="~/DesktopModules/OpenBlocks/Images/Home-32.png" ToolTip="Home page" />

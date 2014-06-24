@@ -98,6 +98,17 @@ public class TemplateEditorUtils
                 return new string[]{
                 };
         }
+        else if (FolderName == "NBright/NBrightBuy")
+        {
+            if (SelectedType == 1)
+                return new string[]{
+                    "/DesktopModules/" + FolderName + "/Themes/"
+                };
+            else
+                return new string[]{
+                    HomePath + FolderName + "/Themes/"                
+                };
+        }
         else
         {
             if (SelectedType == 1)
@@ -108,10 +119,7 @@ public class TemplateEditorUtils
                 return new string[]{
                     HomePath + FolderName + "/Templates/"                
                 };
-
         }
-
-
     }
 
     public static void ModuleDataBind(DropDownList ddlModule, int PortalId, string LocalResourceFile, HttpServerUtility Server)
