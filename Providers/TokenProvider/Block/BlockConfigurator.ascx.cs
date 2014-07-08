@@ -19,14 +19,16 @@ namespace Satrabel.OpenBlocks.Token
             {
                 BlockController bc = new BlockController();
                 var blocks = bc.GetBlocks(PortalId);
-                ddlBlock.DataSource = blocks.Select(b => b.Name).Distinct();
-                ddlBlock.DataBind();
+                if (blocks != null)
+                {
+                    ddlBlock.DataSource = blocks.Select(b => b.Name).Distinct();
+                    ddlBlock.DataBind();
+                }
             }
         }
 
         public override void LoadSettings(Hashtable settings)
         {
-           
             try
             {
                 ddlBlock.SelectedValue = (string)settings["Block_Name"];
@@ -47,7 +49,6 @@ namespace Satrabel.OpenBlocks.Token
         public override string getToken()
         {
             return "{{block name=\"" + ddlBlock.SelectedValue + "\" }}";
-            
         }
     }
 }

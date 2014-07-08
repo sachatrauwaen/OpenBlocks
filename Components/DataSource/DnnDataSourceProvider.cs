@@ -44,9 +44,24 @@ namespace Satrabel.OpenBlocks.DataSource
             {
                 return b.Size;
             }
-        }       
-    }
+        }
 
+        public static FilesModel Files(string path, string searchPatern)
+        {
+            FilesModel model = new FilesModel();
+            var files = Directory.GetFiles(HostingEnvironment.MapPath(path), searchPatern).Select(f => path + "/" + Path.GetFileName(f));
+            model.Items.AddRange(files);
+            return model;
+        }
+    }
+    public class FilesModel
+    {
+        public FilesModel()
+        {
+            Items = new List<string>();
+        }
+        public List<string> Items { get; private set; }
+    }
     public class ImageModel {
         public string Path { get; set; }
         public int Width { get; set; }

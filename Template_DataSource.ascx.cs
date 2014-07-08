@@ -164,7 +164,7 @@ namespace SatraBel.OpenBlocks
                 catch (Exception)
                 {
                     
-                    throw;
+                    //throw;
                 }
                 
 
