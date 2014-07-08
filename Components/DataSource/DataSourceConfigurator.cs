@@ -21,7 +21,7 @@ namespace Satrabel.OpenBlocks.DataSource
             string Token = "";
             foreach (DictionaryEntry item in SaveSettings())
             {
-                Token += " " +item.Key + "\"" + item.Value + "\"";
+                Token += " " +item.Key + "=\"" + item.Value + "\"";
             }
             return Token;
         }

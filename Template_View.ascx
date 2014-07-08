@@ -85,15 +85,15 @@
                 <div style="display: inline-block;float:right;padding-top:23px;padding-left:10px;">
                     <asp:HyperLink ID="hlHome" runat="server" ImageUrl="~/DesktopModules/OpenBlocks/Images/Home-32.png" ToolTip="Home page" />
                 </div>
-                 <div style="display: inline-block;float:right;padding-top:30px;">
-                    <span style="font-size:30px;font-weight:bold">Template Studio</span>
+                 <div style="display: inline-block;float:right;padding-top:25px;">
+                    <span style="font-size:30px;line-height:30px;font-weight:bold">Template Studio</span>
                 </div>
             </div>
             <div class="editorContainer">
                 <div class="col1">
                     <dnn:DnnFileExplorer runat="server" ID="dfeTree" ExplorerMode="FileTree" Width="99%" Configuration-MaxUploadFileSize="10000000"
                         RenderMode="Classic" EnableCopy="True" EnableOpenFile="false" OnClientFileOpen="OnClientItemSelected"  
-                        OnClientLoad="OnClientLoad" Height="100%" >
+                        OnClientLoad="OnClientLoad" Height="100%" EnableAsyncUpload="True" >
                     </dnn:DnnFileExplorer>
                 </div>
                 <div class="col2">
@@ -175,14 +175,14 @@
                 return CodeMirror.showHint(cm, CodeMirror.ternHint, { async: true });
             }
 
-            function templateHint(cm, options) {
+            function templateHint(cm, showhints, options) {
                 var cur = cm.getCursor(), token = cm.getTokenAt(cur);
                 var completions = [];
                 if (token && token.string.slice(0, 1) == "@") {
 
                     CodeMirror.templatesHint.getCompletions(cm, completions, token.string);
 
-                    completions2 = getCompletions(completions, cur, token, CodeMirror.htmlHint);
+                    completions2 = getCompletions(completions, cur, token, options, CodeMirror.htmlHint);
                     return completions2;
                 }
                 else {

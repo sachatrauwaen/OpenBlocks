@@ -194,7 +194,7 @@ public class TemplateEditorUtils
             if (!string.IsNullOrEmpty(path) && Directory.Exists(Server.MapPath(path)))
             {
                 var dryLst = Directory.GetDirectories(Server.MapPath(path));
-                if (dryLst.Count() > 0 && Directory.GetFiles(Server.MapPath(path)).Count() == 0)
+                if (dryLst.Count() > 0 && (Directory.GetFiles(Server.MapPath(path)).Count() == 0 || Module == "Blog"))
                 {
                     foreach (string item in dryLst)
                     {

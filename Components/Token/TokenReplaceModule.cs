@@ -230,6 +230,13 @@ namespace Satrabel.OpenBlocks.Token
                 Reflection.SetProperty(template.GetType(), "Contents", template, new object[]{newContents});
             }  
             */
+            var literalsPA = page.GetAllControls().OfType<LiteralControl>().Where(c => c.Parent.ID == "phProperty"
+                            && c.Parent.Parent.GetType().BaseType.FullName == "Ventrian.PropertyAgent.ViewProperty");
+            foreach (var item in literalsPA)
+            {
+                LiteralControl lc = (LiteralControl)item;
+                lc.Text = TokenReplaceUtils.Replace(lc.Text);
+            }
 
 
             /*

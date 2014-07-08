@@ -65,11 +65,11 @@ namespace Satrabel.OpenBlocks.TemplateEditor
             string[] Content = new []{"Add new file content"};
             if (Path.GetExtension(realfilename) == ".cshtml") {
                 Content = new[] { "@inherits Satrabel.OpenBlocks.TemplateEngine.TemplateWebPage",
-                                  "@ObjectInfo.Print(Model)"  };
+                                  ""  };
             }
             File.WriteAllLines(realfilename, Content);
 
-            return Request.CreateResponse(HttpStatusCode.OK, Content);
+            return Request.CreateResponse(HttpStatusCode.OK, string.Join("\n",Content));
         }
 
         [HttpPost]

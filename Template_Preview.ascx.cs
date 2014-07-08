@@ -82,7 +82,7 @@ namespace SatraBel.OpenBlocks
                         
                         hlThis.NavigateUrl = Request.RawUrl.Replace("&mode=widget", "");
                         hlThis.Text = hlThis.NavigateUrl;
-                        hlThis.Visible = true;
+                        //hlThis.Visible = true;
                     }
                     else
                     {

@@ -1,6 +1,6 @@
 <dotnetnuke type="Package" version="5.0">  
   <packages>
-    <package name="OpenBlocks" type="Module" version="00.01.00">
+    <package name="OpenBlocks" type="Module" version="00.02.00">
       <friendlyName>OpenBlocks</friendlyName>
       <description>OpenBlocks module</description>
       <iconFile>DesktopModules\OpenBlocks\Images\block.png</iconFile>
@@ -113,11 +113,6 @@
               <name>Satrabel.OpenBlocks.dll</name>
               <path>bin</path>
             </assembly>
-            <assembly>
-              <name>ImageResizer.dll</name>
-              <path>bin</path>
-            </assembly>
-          
           </assemblies>
         </component>
 
@@ -157,6 +152,11 @@
                     </dataEngine>
                   </node>
 
+                  <node path="/configuration/dotnetnuke/dataEngine/providers" action="update" key="name" collision="overwrite">
+                    <add name="dnnDataSourceProvider" type="Satrabel.OpenBlocks.DataSource.DnnDataSourceProvider, Satrabel.OpenBlocks" FriendlyName="DNN" Configurator="~\DesktopModules\OpenBlocks\Providers\DataSourceProvider\Dnn\DnnConfigurator.ascx" />
+                  </node>
+
+
                   <node path="/configuration/dotnetnuke" action="update" targetpath="/configuration/dotnetnuke/templateEngine" collision="ignore">
                     <templateEngine defaultProvider="razorTemplateProvider">
                       <providers>
@@ -165,21 +165,6 @@
                         <add name="htmlTemplateProvider" type="Satrabel.OpenBlocks.TemplateEngine.HtmlTemplateProvider, Satrabel.OpenBlocks" />
                       </providers>
                     </templateEngine>
-                  </node>
-
-                  <node path="/configuration/configSections" action="update" key="name" collision="ignore">
-                    <section name="resizer" type="ImageResizer.ResizerSection,ImageResizer"  requirePermission="false" />
-                  </node>
-                  <node path="/configuration" targetpath="/configuration/resizer" action="update" collision="ignore">
-                    <resizer>                      
-                      <plugins>
-                       
-                      </plugins>
-                    </resizer>
-                  </node>
-                  
-                  <node path="/configuration/system.webServer/modules" action="update" key="name" collision="ignore">
-                    <add name="ImageResizingModule" type="ImageResizer.InterceptModule"/>
                   </node>
                   
                 </nodes>
@@ -197,11 +182,6 @@
                   <node path="/configuration/dotnetnuke/tokenEngine" action="remove" />
                   <node path="/configuration/dotnetnuke/dataEngine" action="remove" />
                   <node path="/configuration/dotnetnuke/templateEngine" action="remove" />
-
-                  <node path="/configuration/configSections/section[@name='resizer']" action="remove" />
-                  <node path="/configuration/resizer" action="remove" />
-                  
-                  <node path="/configuration/system.webServer/modules/add[@name='ImageResizingModule']" action="remove" />
                   
                 </nodes>
               </configuration>
@@ -212,7 +192,7 @@
       </components>
     </package>
 
-    <package name="OpenTemplateStudio" type="Module" version="00.01.00">
+    <package name="OpenTemplateStudio" type="Module" version="00.02.00">
       <friendlyName>OpenTemplateStudio</friendlyName>
       <description>Template Studio module</description>
       <iconFile>DesktopModules\OpenBlocks\Images\Template.png</iconFile>
@@ -311,7 +291,7 @@
       </components>
     </package>
 
-    <package name="OpenToken" type="Module" version="00.01.00">
+    <package name="OpenToken" type="Module" version="00.02.00">
       <friendlyName>OpenToken</friendlyName>
       <description>Token module</description>
       <iconFile>DesktopModules\OpenBlocks\Images\block.png</iconFile>

@@ -125,13 +125,11 @@ a.dnnSecondaryAction.dnnDisabled
     left:0;
     width:100%;
     height:100%;
-    z-index:100;
+    z-index:9;
     background-color:#eee;
-     
   }
 
  .overlay .dnnForm{  
   padding: 70px 30px 30px 30px ;
-  
   width:auto;
   }

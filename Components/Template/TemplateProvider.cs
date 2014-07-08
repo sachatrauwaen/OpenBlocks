@@ -88,16 +88,22 @@ namespace Satrabel.OpenBlocks.TemplateEngine
 
         public static string FindProviderAndExecute(string templatepath, string templatefile, object Model) {
             string FileExt = Path.GetExtension(templatefile).TrimStart('.');
-
             TemplateProvider provider = GetProviderList().Values.FirstOrDefault(p => p.FileExtensions().Contains(FileExt));
+            if (provider == null)
+            {
+                throw new Exception(string.Format("Error : No provider defined for {0}", FileExt));
+            }
             return provider.Execute(templatepath, templatefile, Model);        
         }
 
         public static string FindProviderAndExecute(string module, string storage, string template, string file, object Model)
         {
             string FileExt = Path.GetExtension(file).TrimStart('.');
-
             TemplateProvider provider = GetProviderList().Values.FirstOrDefault(p => p.FileExtensions().Contains(FileExt));
+            if (provider == null)
+            {
+                throw new Exception(string.Format("Error : No provider defined for {0}", FileExt));
+            }
             return provider.Execute(module, storage ,template , file, Model);
         }
 

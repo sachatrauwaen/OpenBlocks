@@ -11,6 +11,7 @@ using DotNetNuke.Framework;
 using System.Reflection;
 using Satrabel.OpenBlocks.DataSource;
 using Satrabel.OpenBlocks.TemplateEngine;
+using DotNetNuke.Instrumentation;
 
 namespace Satrabel.OpenBlocks.Token
 {
@@ -98,7 +99,8 @@ namespace Satrabel.OpenBlocks.Token
             }
             catch (Exception ex)
             {
-                return "Error : " + path + filename + " " + ex.Message;
+                DnnLogger.GetClassLogger(typeof(WidgetTokenProvider)).Error("ExecuteWidget", ex);
+                return "Error : " + path + filename + " " + ex.Message + "\n"+ex.StackTrace;
             }            
         }
 
